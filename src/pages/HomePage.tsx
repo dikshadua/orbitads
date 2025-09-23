@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, CheckCircle, Clock, Shield, Sparkles, Zap, Target } from 'lucide-react';
+import { ArrowRight, CheckCircle, Clock, Shield } from 'lucide-react';
 import { Logo } from '../components/Logo';
 
 interface HomePageProps {
@@ -10,53 +10,89 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyPolicy }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-grid opacity-30"></div>
-      <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-radial from-brand-200/40 to-transparent rounded-full blur-3xl"></div>
-      <div className="absolute top-40 right-20 w-96 h-96 bg-gradient-radial from-blue-200/30 to-transparent rounded-full blur-3xl"></div>
-      <div className="absolute bottom-40 left-1/4 w-80 h-80 bg-gradient-radial from-success-200/20 to-transparent rounded-full blur-3xl"></div>
+      {/* Background Decorations */}
+      <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full blur-3xl opacity-20"></div>
+      <div className="absolute bottom-20 left-10 w-40 h-40 bg-gradient-to-br from-blue-200 to-purple-300 rounded-full blur-3xl opacity-15"></div>
 
-      {/* Hero Section */}
-      <section className="relative z-10 min-h-[85vh] flex flex-col items-center justify-center text-center px-4">
-        <div className="animate-slide-up">
+      <div className="container mx-auto px-4 py-16 relative z-10">
+        <div className="text-center">
           <div className="flex justify-center mb-8">
-            <div className="relative">
-              <Logo className="h-32 w-auto drop-shadow-xl" />
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-brand-500 to-brand-600 rounded-full flex items-center justify-center animate-pulse-soft">
-                <Sparkles className="w-3 h-3 text-white" />
-              </div>
-            </div>
+            <Logo className="h-80 w-auto drop-shadow-lg" />
           </div>
 
-          {/* Main Headline */}
-          <div className="space-y-6 mb-12">
+          <div className="flex items-center justify-center mb-4">
             <h1 className="text-5xl font-bold text-[#CC5500] -mt-24 mb-4">
               Ad Compliance Checker
             </h1>
-            
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Check your advertising content against ad specifications and brand safety policies 
-              across major digital platforms
-            </p>
           </div>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12 leading-relaxed">
+            Check your advertising content against ad specifications and brand safety policies 
+            across major digital platforms
+          </p>
+          
+          <button
+            onClick={onStartCheck}
+            className="flex items-center px-8 py-4 bg-gradient-to-r from-[#CC5500] to-[#FF6B35] text-white font-bold rounded-xl 
+                     hover:bg-[#B84A00] hover:scale-105 hover:-translate-y-1
+                     transition-all duration-200 shadow-lg hover:shadow-xl focus:ring-4 focus:ring-orange-100 focus:outline-none text-lg mx-auto mb-16"
+          >
+            Start Compliance Check
+            <ArrowRight className="ml-3 h-5 w-5" />
+          </button>
+        </div>
 
-          {/* CTA Section */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <button
-              onClick={onStartCheck}
-              className="flex items-center px-8 py-4 bg-gradient-to-r from-[#CC5500] to-[#FF6B35] text-white font-bold rounded-xl 
-                       hover:bg-[#B84A00] hover:scale-105 hover:-translate-y-1
-                       transition-all duration-200 shadow-lg hover:shadow-xl focus:ring-4 focus:ring-orange-100 focus:outline-none text-lg group"
+        {/* Features Section */}
+        <div className="grid md:grid-cols-3 gap-8 lg:gap-12 mt-24">
+          {[
+            {
+              icon: CheckCircle,
+              title: "Comprehensive Coverage",
+              description: "Check against 12+ major platforms including TikTok, YouTube, Disney+, Netflix, and more.",
+              color: "green"
+            },
+            {
+              icon: Clock,
+              title: "Instant Analysis",
+              description: "Get detailed compliance reports in seconds, not hours. Identify issues before they become costly rejections.",
+              color: "orange"
+            },
+            {
+              icon: Shield,
+              title: "Brand Safety First",
+              description: "Advanced content analysis detects potential policy violations and brand safety issues.",
+              color: "blue"
+            }
+          ].map((feature, index) => (
+            <div 
+              key={index} 
+              className="bg-white rounded-2xl shadow-xl p-8 border-2 border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
             >
-              <Zap className="mr-3 h-5 w-5 group-hover:rotate-12 transition-transform duration-200" />
-              Start Compliance Check
-              <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
-            </button>
-            
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <CheckCircle className="w-4 h-4 text-green-500" />
-              <span className="font-medium">Free • No signup required • Instant results</span>
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${
+                feature.color === 'green' ? 'bg-gradient-to-br from-green-100 to-green-200' :
+                feature.color === 'orange' ? 'bg-gradient-to-br from-orange-100 to-orange-200' :
+                'bg-gradient-to-br from-blue-100 to-blue-200'
+              }`}>
+                <feature.icon className={`w-7 h-7 ${
+                  feature.color === 'green' ? 'text-green-600' :
+                  feature.color === 'orange' ? 'text-[#CC5500]' :
+                  'text-blue-600'
+                }`} />
+              </div>
+              
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                {feature.title}
+              </h3>
+              
+              <p className="text-gray-600 leading-relaxed">
+                {feature.description}
+              </p>
             </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
           </div>
 
           {/* Trust Indicators */}
