@@ -9,7 +9,7 @@ interface HomePageProps {
 
 export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyPolicy }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-brand-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-grid opacity-30"></div>
       <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-radial from-brand-200/40 to-transparent rounded-full blur-3xl"></div>
@@ -30,13 +30,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
 
           {/* Main Headline */}
           <div className="space-y-6 mb-12">
-            <h1 className="text-display bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-700 bg-clip-text text-transparent max-w-5xl mx-auto text-balance">
-              Ship ads with confidence across every platform
+            <h1 className="text-5xl font-bold text-[#CC5500] -mt-24 mb-4">
+              Ad Compliance Checker
             </h1>
             
-            <p className="text-xl md:text-2xl text-neutral-600 max-w-4xl mx-auto leading-relaxed text-pretty">
-              Get instant compliance checks against platform specs and brand safety policies. 
-              From TikTok to Disney+, ensure your creative assets meet every requirement before launch.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Check your advertising content against ad specifications and brand safety policies 
+              across major digital platforms
             </p>
           </div>
 
@@ -44,27 +44,29 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <button
               onClick={onStartCheck}
-              className="btn-primary text-lg px-8 py-4 group"
+              className="flex items-center px-8 py-4 bg-gradient-to-r from-[#CC5500] to-[#FF6B35] text-white font-bold rounded-xl 
+                       hover:bg-[#B84A00] hover:scale-105 hover:-translate-y-1
+                       transition-all duration-200 shadow-lg hover:shadow-xl focus:ring-4 focus:ring-orange-100 focus:outline-none text-lg group"
             >
               <Zap className="mr-3 h-5 w-5 group-hover:rotate-12 transition-transform duration-200" />
               Start Compliance Check
               <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
             </button>
             
-            <div className="flex items-center gap-2 text-sm text-neutral-500">
-              <CheckCircle className="w-4 h-4 text-success-500" />
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <CheckCircle className="w-4 h-4 text-green-500" />
               <span className="font-medium">Free • No signup required • Instant results</span>
             </div>
           </div>
 
           {/* Trust Indicators */}
-          <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-neutral-500 mb-8">
+          <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500 mb-8">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-success-500 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span className="font-medium">12+ Platforms Supported</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-brand-500 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-[#CC5500] rounded-full animate-pulse"></div>
               <span className="font-medium">Real-time Policy Updates</span>
             </div>
             <div className="flex items-center gap-2">
@@ -76,17 +78,17 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
       </section>
 
       {/* Features Section */}
-      <section className="relative z-10 section-padding bg-gradient-to-b from-transparent to-neutral-100/50">
-        <div className="container-wide">
+      <section className="relative z-10 py-16 bg-gradient-to-b from-transparent to-gray-100/50">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-20 animate-slide-up">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-100 text-brand-700 rounded-full text-sm font-semibold mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-semibold mb-6">
               <Target className="w-4 h-4" />
               Why Choose Orbit Ads
             </div>
-            <h2 className="text-headline text-neutral-900 mb-6 text-balance">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               Built for modern advertising teams
             </h2>
-            <p className="text-xl text-neutral-600 max-w-3xl mx-auto text-pretty">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Stop wasting time on manual compliance checks. Get instant feedback and ship faster.
             </p>
           </div>
@@ -97,14 +99,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
                 icon: CheckCircle,
                 title: "Comprehensive Coverage",
                 description: "Check against 12+ major platforms including TikTok, YouTube, Disney+, Netflix, and more. Real-time policy updates ensure you're always compliant.",
-                color: "success",
+                color: "green",
                 stats: "12+ Platforms"
               },
               {
                 icon: Clock,
                 title: "Instant Analysis",
                 description: "Get detailed compliance reports in seconds, not hours. Identify issues before they become costly rejections or delays.",
-                color: "brand",
+                color: "orange",
                 stats: "< 30 Seconds"
               },
               {
@@ -117,35 +119,35 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
             ].map((feature, index) => (
               <div 
                 key={index} 
-                className="card-elevated p-8 group hover:scale-[1.02] transition-all duration-300"
+                className="bg-white rounded-2xl shadow-xl p-8 border-2 border-gray-100 hover:shadow-2xl hover:-translate-y-1 group transition-all duration-300"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-center justify-between mb-6">
                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200 ${
-                    feature.color === 'success' ? 'bg-gradient-to-br from-success-100 to-success-200' :
-                    feature.color === 'brand' ? 'bg-gradient-to-br from-brand-100 to-brand-200' :
+                    feature.color === 'green' ? 'bg-gradient-to-br from-green-100 to-green-200' :
+                    feature.color === 'orange' ? 'bg-gradient-to-br from-orange-100 to-orange-200' :
                     'bg-gradient-to-br from-blue-100 to-blue-200'
                   }`}>
                     <feature.icon className={`w-7 h-7 ${
-                      feature.color === 'success' ? 'text-success-600' :
-                      feature.color === 'brand' ? 'text-brand-600' :
+                      feature.color === 'green' ? 'text-green-600' :
+                      feature.color === 'orange' ? 'text-[#CC5500]' :
                       'text-blue-600'
                     }`} />
                   </div>
                   <div className={`px-3 py-1 rounded-full text-xs font-bold ${
-                    feature.color === 'success' ? 'bg-success-100 text-success-700' :
-                    feature.color === 'brand' ? 'bg-brand-100 text-brand-700' :
+                    feature.color === 'green' ? 'bg-green-100 text-green-700' :
+                    feature.color === 'orange' ? 'bg-orange-100 text-orange-700' :
                     'bg-blue-100 text-blue-700'
                   }`}>
                     {feature.stats}
                   </div>
                 </div>
                 
-                <h3 className="text-title text-neutral-900 mb-4 group-hover:text-brand-600 transition-colors duration-200">
+                <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-[#CC5500] transition-colors duration-200">
                   {feature.title}
                 </h3>
                 
-                <p className="text-body text-neutral-600 leading-relaxed">
+                <p className="text-gray-600 leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -155,17 +157,17 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
       </section>
 
       {/* Social Proof Section */}
-      <section className="relative z-10 py-16 bg-white/50 backdrop-blur-sm border-y border-neutral-200">
-        <div className="container-wide">
+      <section className="relative z-10 py-16 bg-white/50 backdrop-blur-sm border-y border-gray-200">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
-            <p className="text-overline text-neutral-500 mb-8">Trusted by advertising teams worldwide</p>
+            <p className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-8">Trusted by advertising teams worldwide</p>
             <div className="flex flex-wrap items-center justify-center gap-12 opacity-60">
               {/* Placeholder for client logos */}
-              <div className="h-8 w-24 bg-neutral-200 rounded"></div>
-              <div className="h-8 w-32 bg-neutral-200 rounded"></div>
-              <div className="h-8 w-28 bg-neutral-200 rounded"></div>
-              <div className="h-8 w-36 bg-neutral-200 rounded"></div>
-              <div className="h-8 w-24 bg-neutral-200 rounded"></div>
+              <div className="h-8 w-24 bg-gray-200 rounded"></div>
+              <div className="h-8 w-32 bg-gray-200 rounded"></div>
+              <div className="h-8 w-28 bg-gray-200 rounded"></div>
+              <div className="h-8 w-36 bg-gray-200 rounded"></div>
+              <div className="h-8 w-24 bg-gray-200 rounded"></div>
             </div>
           </div>
         </div>
