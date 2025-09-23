@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, CheckCircle, Clock, Shield } from 'lucide-react';
+import { ArrowRight, CheckCircle, Clock, Shield, Target } from 'lucide-react';
 import { Logo } from '../components/Logo';
 
 interface HomePageProps {
@@ -14,7 +14,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
       <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-br from-orange-200 to-orange-300 rounded-full blur-3xl opacity-20"></div>
       <div className="absolute bottom-20 left-10 w-40 h-40 bg-gradient-to-br from-blue-200 to-purple-300 rounded-full blur-3xl opacity-15"></div>
 
-      <div className="container mx-auto px-4 py-16 relative z-10">
+      <section className="container mx-auto px-4 py-16 relative z-10">
         <div className="text-center">
           <div className="flex justify-center mb-8">
             <Logo className="h-80 w-auto drop-shadow-lg" />
@@ -39,61 +39,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
             Start Compliance Check
             <ArrowRight className="ml-3 h-5 w-5" />
           </button>
-        </div>
-
-        {/* Features Section */}
-        <div className="grid md:grid-cols-3 gap-8 lg:gap-12 mt-24">
-          {[
-            {
-              icon: CheckCircle,
-              title: "Comprehensive Coverage",
-              description: "Check against 12+ major platforms including TikTok, YouTube, Disney+, Netflix, and more.",
-              color: "green"
-            },
-            {
-              icon: Clock,
-              title: "Instant Analysis",
-              description: "Get detailed compliance reports in seconds, not hours. Identify issues before they become costly rejections.",
-              color: "orange"
-            },
-            {
-              icon: Shield,
-              title: "Brand Safety First",
-              description: "Advanced content analysis detects potential policy violations and brand safety issues.",
-              color: "blue"
-            }
-          ].map((feature, index) => (
-            <div 
-              key={index} 
-              className="bg-white rounded-2xl shadow-xl p-8 border-2 border-gray-100 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
-            >
-              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${
-                feature.color === 'green' ? 'bg-gradient-to-br from-green-100 to-green-200' :
-                feature.color === 'orange' ? 'bg-gradient-to-br from-orange-100 to-orange-200' :
-                'bg-gradient-to-br from-blue-100 to-blue-200'
-              }`}>
-                <feature.icon className={`w-7 h-7 ${
-                  feature.color === 'green' ? 'text-green-600' :
-                  feature.color === 'orange' ? 'text-[#CC5500]' :
-                  'text-blue-600'
-                }`} />
-              </div>
-              
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
-                {feature.title}
-              </h3>
-              
-              <p className="text-gray-600 leading-relaxed">
-                {feature.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-          </div>
 
           {/* Trust Indicators */}
           <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500 mb-8">
