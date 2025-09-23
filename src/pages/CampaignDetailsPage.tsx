@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Building2, Globe, Tag, Users, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Building2, Globe, Tag, Users, ArrowRight, CheckCircle2, AlertCircle, Info } from 'lucide-react';
 import type { FormData } from '../types';
 import { PUBLISHERS } from '../data/publishers';
 import { IAB_INDUSTRIES } from '../data/iabIndustries';
@@ -12,6 +12,7 @@ interface CampaignDetailsPageProps {
 export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formData, onNext }) => {
   const [localFormData, setLocalFormData] = useState<FormData>(formData);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const handleInputChange = (field: keyof FormData, value: string | string[]) => {
     setLocalFormData({
@@ -25,6 +26,10 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
     }
   };
 
+  const handleInputBlur = (field: string) => {
+    setTouched(prev => ({ ...prev, [field]: true }));
+  };
+
   const handlePublisherToggle = (publisherName: string) => {
     const currentSelection = localFormData.selectedPublishers;
     const newSelection = currentSelection.includes(publisherName)
@@ -32,6 +37,7 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
       : [...currentSelection, publisherName];
     
     handleInputChange('selectedPublishers', newSelection);
+    setTouched(prev => ({ ...prev, selectedPublishers: true }));
   };
 
   const validateForm = () => {
@@ -61,202 +67,259 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
     }
   };
 
+  const getInputState = (field: string) => {
+    if (errors[field]) return 'error';
+    if (touched[field] && localFormData[field as keyof FormData]) return 'success';
+    return 'default';
+  };
+
   const isValid = localFormData.brandName && localFormData.websiteUrl && localFormData.selectedPublishers.length > 0;
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-gray-100 hover:shadow-2xl transition-all duration-200">
-        <div className="bg-gradient-to-r from-[#CC5500] to-[#FF6B35] rounded-xl p-6 mb-8 text-white">
-          <h2 className="text-3xl font-bold flex items-center">
-            <Building2 className="w-8 h-8 mr-3" />
-            Advertiser Details
-          </h2>
-          <p className="mt-2 text-orange-100">Tell us about your brand and campaign requirements</p>
+    <div className="container-wide animate-slide-up">
+      <div className="card-elevated p-8 lg:p-12">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-brand-500 to-brand-600 rounded-2xl p-8 mb-12 text-white relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-headline flex items-center text-white mb-3">
+                  <Building2 className="w-8 h-8 mr-4" />
+                  Advertiser Details
+                </h1>
+                <p className="text-lg text-brand-100 max-w-2xl">
+                  Tell us about your brand and campaign requirements to get started
+                </p>
+              </div>
+              <div className="hidden lg:block text-right">
+                <div className="text-sm text-brand-200 mb-1">Step 1 of 3</div>
+                <div className="text-2xl font-bold text-white">Campaign Setup</div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-10">
           {/* Advertiser Name */}
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-3 flex items-center">
-              <Building2 className="w-4 h-4 mr-2 text-[#CC5500]" />
-              Advertiser Name *
+          <div className="space-y-3">
+            <label className="block text-sm font-semibold text-neutral-700 flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-brand-500" />
+              Advertiser Name
+              <span className="text-error-500">*</span>
             </label>
             <div className="relative">
               <input
                 type="text"
                 value={localFormData.brandName}
                 onChange={(e) => handleInputChange('brandName', e.target.value)}
-                placeholder="Enter advertiser name"
-                className={`w-full px-4 py-4 border-2 rounded-xl text-lg font-medium transition-all duration-200
-                  focus:ring-4 focus:ring-orange-100 focus:outline-none ${
-                  errors.brandName 
-                    ? 'border-red-300 bg-red-50 focus:border-red-500' 
-                    : localFormData.brandName 
-                      ? 'border-green-300 bg-green-50 focus:border-green-500'
-                      : 'border-gray-200 focus:border-[#CC5500] hover:border-gray-300'
+                onBlur={() => handleInputBlur('brandName')}
+                placeholder="Enter your brand or company name"
+                className={`input-field text-lg ${
+                  getInputState('brandName') === 'error' ? 'input-error' :
+                  getInputState('brandName') === 'success' ? 'input-success' : ''
                 }`}
               />
-              {localFormData.brandName && !errors.brandName && (
-                <CheckCircle2 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500" />
+              {getInputState('brandName') === 'success' && (
+                <CheckCircle2 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-success-500" />
               )}
-              {errors.brandName && (
-                <AlertCircle className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" />
+              {getInputState('brandName') === 'error' && (
+                <AlertCircle className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-error-500" />
               )}
             </div>
             {errors.brandName && (
-              <p className="mt-2 text-sm text-red-600 flex items-center">
-                <AlertCircle className="w-4 h-4 mr-1" />
+              <div className="flex items-center gap-2 text-sm text-error-600 animate-slide-down">
+                <AlertCircle className="w-4 h-4" />
                 {errors.brandName}
-              </p>
+              </div>
             )}
           </div>
 
           {/* Website URL */}
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-3 flex items-center">
-              <Globe className="w-4 h-4 mr-2 text-[#CC5500]" />
-              Website URL *
+          <div className="space-y-3">
+            <label className="block text-sm font-semibold text-neutral-700 flex items-center gap-2">
+              <Globe className="w-4 h-4 text-brand-500" />
+              Website URL
+              <span className="text-error-500">*</span>
             </label>
             <div className="relative">
               <input
                 type="url"
                 value={localFormData.websiteUrl}
                 onChange={(e) => handleInputChange('websiteUrl', e.target.value)}
+                onBlur={() => handleInputBlur('websiteUrl')}
                 placeholder="https://example.com"
-                className={`w-full px-4 py-4 border-2 rounded-xl text-lg font-medium transition-all duration-200
-                  focus:ring-4 focus:ring-orange-100 focus:outline-none ${
-                  errors.websiteUrl 
-                    ? 'border-red-300 bg-red-50 focus:border-red-500' 
-                    : localFormData.websiteUrl && localFormData.websiteUrl.match(/^https?:\/\/.+/)
-                      ? 'border-green-300 bg-green-50 focus:border-green-500'
-                      : 'border-gray-200 focus:border-[#CC5500] hover:border-gray-300'
+                className={`input-field text-lg ${
+                  getInputState('websiteUrl') === 'error' ? 'input-error' :
+                  getInputState('websiteUrl') === 'success' ? 'input-success' : ''
                 }`}
               />
-              {localFormData.websiteUrl && localFormData.websiteUrl.match(/^https?:\/\/.+/) && !errors.websiteUrl && (
-                <CheckCircle2 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500" />
+              {getInputState('websiteUrl') === 'success' && (
+                <CheckCircle2 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-success-500" />
               )}
-              {errors.websiteUrl && (
-                <AlertCircle className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" />
+              {getInputState('websiteUrl') === 'error' && (
+                <AlertCircle className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-error-500" />
               )}
             </div>
             {errors.websiteUrl && (
-              <p className="mt-2 text-sm text-red-600 flex items-center">
-                <AlertCircle className="w-4 h-4 mr-1" />
+              <div className="flex items-center gap-2 text-sm text-error-600 animate-slide-down">
+                <AlertCircle className="w-4 h-4" />
                 {errors.websiteUrl}
-              </p>
+              </div>
             )}
+            <div className="flex items-center gap-2 text-sm text-neutral-500">
+              <Info className="w-4 h-4" />
+              We'll analyze your website for brand safety compliance
+            </div>
           </div>
 
           {/* IAB Industry */}
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-3 flex items-center">
-              <Tag className="w-4 h-4 mr-2 text-[#CC5500]" />
+          <div className="space-y-3">
+            <label className="block text-sm font-semibold text-neutral-700 flex items-center gap-2">
+              <Tag className="w-4 h-4 text-brand-500" />
               IAB Industry Category
+              <span className="text-neutral-400 text-xs">(Optional)</span>
             </label>
             <select
               value={localFormData.iabIndustry}
               onChange={(e) => handleInputChange('iabIndustry', e.target.value)}
-              className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl text-lg font-medium 
-                       focus:ring-4 focus:ring-orange-100 focus:border-[#CC5500] focus:outline-none
-                       hover:border-gray-300 transition-all duration-200"
+              className="input-field text-lg"
             >
-              <option value="">Select industry category (optional)</option>
+              <option value="">Select industry category</option>
               {IAB_INDUSTRIES.map((industry) => (
                 <option key={industry.code} value={industry.code}>
                   {industry.name}
                 </option>
               ))}
             </select>
+            <div className="flex items-center gap-2 text-sm text-neutral-500">
+              <Info className="w-4 h-4" />
+              Helps us provide more accurate compliance recommendations
+            </div>
           </div>
 
           {/* Publisher Selection */}
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-4 flex items-center">
-              <Users className="w-4 h-4 mr-2 text-[#CC5500]" />
-              Target Publishers *
-            </label>
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <label className="block text-sm font-semibold text-neutral-700 flex items-center gap-2">
+                <Users className="w-4 h-4 text-brand-500" />
+                Target Publishers
+                <span className="text-error-500">*</span>
+              </label>
+              {localFormData.selectedPublishers.length > 0 && (
+                <div className="flex items-center gap-2 px-3 py-1 bg-success-100 text-success-700 rounded-full text-sm font-medium">
+                  <CheckCircle2 className="w-4 h-4" />
+                  {localFormData.selectedPublishers.length} selected
+                </div>
+              )}
+            </div>
             
             {/* Publisher Categories */}
-            <div className="space-y-6">
-              {['Social', 'Video', 'CTV'].map(category => {
+            <div className="space-y-8">
+              {['Social', 'Video', 'CTV'].map((category, categoryIndex) => {
                 const categoryPublishers = PUBLISHERS.filter(p => p.category === category);
+                const selectedInCategory = categoryPublishers.filter(p => 
+                  localFormData.selectedPublishers.includes(p.name)
+                ).length;
+                
                 return (
-                  <div key={category} className="bg-gray-50 rounded-xl p-6 border-2 border-gray-100">
-                    <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                      <div className={`w-3 h-3 rounded-full mr-3 ${
-                        category === 'Social' ? 'bg-blue-500' : 
-                        category === 'Video' ? 'bg-green-500' : 'bg-purple-500'
-                      }`}></div>
-                      {category} Platforms
-                    </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {categoryPublishers.map((publisher) => (
-                        <div
-                          key={publisher.name}
-                          onClick={() => handlePublisherToggle(publisher.name)}
-                          className={`p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 
-                                    hover:scale-105 hover:-translate-y-1 hover:shadow-lg group ${
-                            localFormData.selectedPublishers.includes(publisher.name)
-                              ? 'border-[#CC5500] bg-gradient-to-br from-orange-50 to-orange-100 shadow-lg'
-                              : 'border-gray-200 bg-white hover:border-[#CC5500] hover:bg-orange-50'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <h3 className="font-bold text-gray-900 group-hover:text-[#CC5500] transition-colors duration-200">
-                                {publisher.name}
-                              </h3>
-                              <p className="text-sm text-gray-600 mt-1">
-                                {publisher.category} • Max {publisher.technicalSpecs.maxDuration}s
-                              </p>
-                            </div>
-                            <div className={`w-6 h-6 rounded-full border-2 transition-all duration-200 ${
-                                localFormData.selectedPublishers.includes(publisher.name)
-                                  ? 'border-[#CC5500] bg-[#CC5500] scale-110'
-                                  : 'border-gray-300 group-hover:border-[#CC5500]'
+                  <div 
+                    key={category} 
+                    className="space-y-4 animate-slide-up"
+                    style={{ animationDelay: `${categoryIndex * 100}ms` }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold text-neutral-900 flex items-center gap-3">
+                        <div className={`w-3 h-3 rounded-full ${
+                          category === 'Social' ? 'bg-blue-500' : 
+                          category === 'Video' ? 'bg-success-500' : 'bg-purple-500'
+                        }`}></div>
+                        {category} Platforms
+                      </h3>
+                      {selectedInCategory > 0 && (
+                        <span className="text-sm text-neutral-500 font-medium">
+                          {selectedInCategory} of {categoryPublishers.length} selected
+                        </span>
+                      )}
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {categoryPublishers.map((publisher, publisherIndex) => {
+                        const isSelected = localFormData.selectedPublishers.includes(publisher.name);
+                        return (
+                          <div
+                            key={publisher.name}
+                            onClick={() => handlePublisherToggle(publisher.name)}
+                            className={`card-interactive p-6 group cursor-pointer transition-all duration-200 ${
+                              isSelected 
+                                ? 'border-brand-300 bg-gradient-to-br from-brand-50 to-brand-100 shadow-brand' 
+                                : 'hover:border-brand-200 hover:bg-brand-50/50'
+                            }`}
+                            style={{ animationDelay: `${(categoryIndex * 100) + (publisherIndex * 50)}ms` }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-3 mb-2">
+                                  <h4 className={`font-semibold transition-colors duration-200 ${
+                                    isSelected ? 'text-brand-700' : 'text-neutral-900 group-hover:text-brand-600'
+                                  }`}>
+                                    {publisher.name}
+                                  </h4>
+                                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                    category === 'Social' ? 'bg-blue-100 text-blue-700' :
+                                    category === 'Video' ? 'bg-success-100 text-success-700' :
+                                    'bg-purple-100 text-purple-700'
+                                  }`}>
+                                    {publisher.category}
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-4 text-sm text-neutral-600">
+                                  <span>Max {publisher.technicalSpecs.maxDuration}s</span>
+                                  <span>•</span>
+                                  <span>{publisher.technicalSpecs.formats.join(', ').toUpperCase()}</span>
+                                </div>
+                              </div>
+                              <div className={`w-6 h-6 rounded-full border-2 transition-all duration-200 flex items-center justify-center ${
+                                isSelected
+                                  ? 'border-brand-500 bg-brand-500 scale-110'
+                                  : 'border-neutral-300 group-hover:border-brand-400'
                               }`}>
-                                {localFormData.selectedPublishers.includes(publisher.name) && (
-                                  <CheckCircle2 className="w-full h-full text-white" />
+                                {isSelected && (
+                                  <CheckCircle2 className="w-4 h-4 text-white" />
                                 )}
                               </div>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 );
               })}
             </div>
             
-            {localFormData.selectedPublishers.length > 0 && (
-              <div className="mt-4 p-4 bg-green-50 border-2 border-green-200 rounded-xl">
-                <p className="text-sm text-green-700 font-semibold flex items-center">
-                  <CheckCircle2 className="w-4 h-4 mr-2" />
-                  {localFormData.selectedPublishers.length} publisher{localFormData.selectedPublishers.length > 1 ? 's' : ''} selected
-                </p>
-              </div>
-            )}
-            
             {errors.selectedPublishers && (
-              <p className="mt-2 text-sm text-red-600 flex items-center">
-                <AlertCircle className="w-4 h-4 mr-1" />
+              <div className="flex items-center gap-2 text-sm text-error-600 animate-slide-down">
+                <AlertCircle className="w-4 h-4" />
                 {errors.selectedPublishers}
-              </p>
+              </div>
             )}
           </div>
         </div>
 
-        <div className="flex justify-end mt-12 pt-8 border-t-2 border-gray-100">
+        {/* Footer */}
+        <div className="flex justify-between items-center mt-16 pt-8 border-t-2 border-neutral-100">
+          <div className="text-sm text-neutral-500">
+            Step 1 of 3 • Campaign Details
+          </div>
           <button
             onClick={handleNext}
             disabled={!isValid}
-            className="flex items-center px-8 py-4 bg-[#CC5500] text-white font-bold rounded-xl 
-                     hover:bg-[#B84A00] hover:scale-105 hover:-translate-y-1
-                     disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0
-                     transition-all duration-200 shadow-lg hover:shadow-xl focus:ring-4 focus:ring-orange-100 focus:outline-none"
+            className="btn-primary text-lg px-8 py-4 group"
           >
             Continue to Upload
-            <ArrowRight className="w-5 h-5 ml-2" />
+            <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-200" />
           </button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Upload, X, FileVideo, Image, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { Upload, X, FileVideo, Image, AlertCircle, CheckCircle2, Loader2, Plus, Film, ImageIcon } from 'lucide-react';
 import { FileAnalysis } from '../types';
 
 interface FileUploadProps {
@@ -10,6 +10,7 @@ interface FileUploadProps {
 export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploadedFiles }) => {
   const [isDragOver, setIsDragOver] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisProgress, setAnalysisProgress] = useState(0);
 
   const analyzeFile = useCallback(async (file: File): Promise<FileAnalysis> => {
     return new Promise((resolve) => {
@@ -91,6 +92,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
 
   const handleFiles = useCallback(async (files: FileList) => {
     setIsAnalyzing(true);
+    setAnalysisProgress(0);
     
     const fileArray = Array.from(files);
     const validFiles = fileArray.filter(file => {
@@ -105,13 +107,20 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
     }
 
     try {
-      const analyzes = await Promise.all(validFiles.map(analyzeFile));
+      const analyzes = [];
+      for (let i = 0; i < validFiles.length; i++) {
+        const analysis = await analyzeFile(validFiles[i]);
+        analyzes.push(analysis);
+        setAnalysisProgress(((i + 1) / validFiles.length) * 100);
+      }
+      
       const allAnalyzes = [...uploadedFiles, ...analyzes];
       onFilesAnalyzed(allAnalyzes);
     } catch (error) {
       console.error('Error analyzing files:', error);
     } finally {
       setIsAnalyzing(false);
+      setAnalysisProgress(0);
     }
   }, [analyzeFile, onFilesAnalyzed, uploadedFiles]);
 
@@ -145,13 +154,13 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
   const imageFiles = uploadedFiles.filter(file => file.fileType === 'image');
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-slide-up">
       {/* Upload Area */}
       <div
-        className={`border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-200 ${
+        className={`relative border-2 border-dashed rounded-3xl p-16 text-center transition-all duration-300 ${
           isDragOver
-            ? 'border-[#CC5500] bg-gradient-to-br from-orange-50 to-orange-100 scale-105'
-            : 'border-gray-300 hover:border-[#CC5500] hover:bg-gradient-to-br hover:from-gray-50 hover:to-orange-50'
+            ? 'border-brand-400 bg-gradient-to-br from-brand-50 to-brand-100 scale-[1.02]'
+            : 'border-neutral-300 hover:border-brand-300 hover:bg-gradient-to-br hover:from-neutral-50 hover:to-brand-50'
         }`}
         onDragOver={(e) => {
           e.preventDefault();
@@ -161,20 +170,22 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
         onDrop={handleDrop}
       >
         <div className="flex flex-col items-center">
-          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-200 ${
-            isDragOver ? 'bg-[#CC5500] text-white scale-110' : 'bg-gradient-to-br from-gray-100 to-gray-200 text-gray-400'
+          <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-8 transition-all duration-300 ${
+            isDragOver 
+              ? 'bg-brand-500 text-white scale-110 rotate-12' 
+              : 'bg-gradient-to-br from-neutral-100 to-neutral-200 text-neutral-400 hover:from-brand-100 hover:to-brand-200 hover:text-brand-500'
           }`}>
-            <Upload className="w-8 h-8" />
+            <Upload className="w-10 h-10" />
           </div>
           
-          <h3 className="text-2xl font-bold text-gray-900 mb-3">
+          <h3 className="text-2xl font-bold text-neutral-900 mb-4">
             Upload Creative Assets
           </h3>
-          <p className="text-gray-600 mb-4 text-lg">
+          <p className="text-lg text-neutral-600 mb-2 max-w-2xl">
             Drag and drop your video and image files here, or click to browse
           </p>
-          <p className="text-sm text-gray-500 mb-6">
-            Supports: MP4, MOV (video) • JPG, PNG, GIF (images) • Max 500MB per file
+          <p className="text-sm text-neutral-500 mb-8">
+            Supports: <span className="font-medium">MP4, MOV</span> (video) • <span className="font-medium">JPG, PNG, GIF</span> (images) • Max 500MB per file
           </p>
           
           <input
@@ -187,39 +198,56 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
           />
           <label
             htmlFor="file-upload"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-[#CC5500] text-white font-bold rounded-xl 
-                     hover:bg-[#B84A00] hover:scale-105 hover:-translate-y-1
-                     cursor-pointer transition-all duration-200 shadow-lg hover:shadow-xl focus:ring-4 focus:ring-orange-100"
+            className="btn-primary text-lg px-8 py-4 group cursor-pointer"
           >
-            <Upload className="w-5 h-5" />
+            <Plus className="w-5 h-5 mr-3 group-hover:rotate-90 transition-transform duration-200" />
             Choose Files
           </label>
         </div>
       </div>
 
-      {/* Upload Status */}
+      {/* Upload Progress */}
       {isAnalyzing && (
-        <div className="flex items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl">
-          <Loader2 className="animate-spin w-6 h-6 text-[#CC5500]" />
-          <div>
-            <div className="font-bold text-[#CC5500] text-lg">Analyzing uploaded files...</div>
-            <div className="text-sm text-gray-600">Processing file metadata and technical specifications</div>
+        <div className="card p-6 animate-scale-in">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-brand-100 to-brand-200 rounded-2xl flex items-center justify-center">
+              <Loader2 className="animate-spin w-6 h-6 text-brand-600" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="font-semibold text-neutral-900">Analyzing uploaded files...</h4>
+                <span className="text-sm font-medium text-neutral-600">{Math.round(analysisProgress)}%</span>
+              </div>
+              <div className="w-full bg-neutral-200 rounded-full h-2">
+                <div 
+                  className="bg-gradient-to-r from-brand-500 to-brand-600 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${analysisProgress}%` }}
+                ></div>
+              </div>
+              <p className="text-sm text-neutral-500 mt-2">Processing file metadata and technical specifications</p>
+            </div>
           </div>
         </div>
       )}
 
       {/* Uploaded Files Display */}
       {uploadedFiles.length > 0 && (
-        <div className="bg-white rounded-2xl border-2 border-gray-200 p-8 shadow-lg">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl font-bold text-gray-900 flex items-center">
-              <CheckCircle2 className="w-6 h-6 text-green-500 mr-3" />
-              Uploaded Assets ({uploadedFiles.length})
-            </h3>
+        <div className="card p-8 animate-slide-up">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-success-100 to-success-200 rounded-2xl flex items-center justify-center">
+                <CheckCircle2 className="w-6 h-6 text-success-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-neutral-900">
+                  Uploaded Assets ({uploadedFiles.length})
+                </h3>
+                <p className="text-sm text-neutral-600">Ready for compliance analysis</p>
+              </div>
+            </div>
             <button
               onClick={clearAllFiles}
-              className="text-red-600 hover:text-red-700 font-bold px-4 py-2 rounded-lg hover:bg-red-50 
-                       transition-all duration-200 border-2 border-red-200 hover:border-red-300"
+              className="btn-ghost text-error-600 hover:bg-error-50 hover:text-error-700"
             >
               Clear All
             </button>
@@ -228,35 +256,48 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
           {/* Video Assets */}
           {videoFiles.length > 0 && (
             <div className="mb-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center">
-                  <FileVideo className="w-5 h-5 text-[#CC5500]" />
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-brand-100 to-brand-200 rounded-xl flex items-center justify-center">
+                  <Film className="w-5 h-5 text-brand-600" />
                 </div>
-                <h4 className="font-bold text-gray-900 text-lg">Video Assets ({videoFiles.length})</h4>
+                <h4 className="text-lg font-semibold text-neutral-900">Video Assets ({videoFiles.length})</h4>
               </div>
-              <div className="space-y-3">
+              <div className="grid gap-4">
                 {videoFiles.map((file, index) => {
                   const originalIndex = uploadedFiles.findIndex(f => f === file);
                   return (
-                    <div key={originalIndex} className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-50 to-orange-100 
-                                                      rounded-xl border-2 border-orange-200 hover:shadow-lg transition-all duration-200">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-[#CC5500] to-[#FF6B35] rounded-xl flex items-center justify-center">
-                          <FileVideo className="w-6 h-6 text-white" />
+                    <div 
+                      key={originalIndex} 
+                      className="card-interactive p-6 group"
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-14 h-14 bg-gradient-to-br from-brand-500 to-brand-600 rounded-2xl flex items-center justify-center">
+                            <FileVideo className="w-7 h-7 text-white" />
+                          </div>
+                          <div>
+                            <h5 className="font-semibold text-neutral-900 group-hover:text-brand-600 transition-colors duration-200">
+                              {file.fileName}
+                            </h5>
+                            <div className="flex items-center gap-4 text-sm text-neutral-600 mt-1">
+                              <span className="font-medium">{file.resolution.width}×{file.resolution.height}</span>
+                              <span>•</span>
+                              <span className="font-medium">{file.duration}s</span>
+                              <span>•</span>
+                              <span className="font-medium">{formatFileSize(file.fileSize)}</span>
+                              <span>•</span>
+                              <span className="font-medium uppercase">{file.format}</span>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-bold text-gray-900">{file.fileName}</p>
-                          <p className="text-sm text-gray-600">
-                            {file.resolution.width}×{file.resolution.height} • {file.duration}s • {formatFileSize(file.fileSize)} • {file.format.toUpperCase()}
-                          </p>
-                        </div>
+                        <button
+                          onClick={() => removeFile(originalIndex)}
+                          className="w-10 h-10 rounded-xl text-neutral-400 hover:text-error-500 hover:bg-error-50 transition-all duration-200 flex items-center justify-center"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => removeFile(originalIndex)}
-                        className="text-gray-400 hover:text-red-500 p-2 rounded-lg hover:bg-white transition-all duration-200"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
                     </div>
                   );
                 })}
@@ -267,35 +308,48 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
           {/* Static Image Assets */}
           {imageFiles.length > 0 && (
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center">
-                  <Image className="w-5 h-5 text-blue-600" />
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center">
+                  <ImageIcon className="w-5 h-5 text-blue-600" />
                 </div>
-                <h4 className="font-bold text-gray-900 text-lg">Static Image Assets ({imageFiles.length})</h4>
+                <h4 className="text-lg font-semibold text-neutral-900">Static Image Assets ({imageFiles.length})</h4>
               </div>
-              <div className="space-y-3">
+              <div className="grid gap-4">
                 {imageFiles.map((file, index) => {
                   const originalIndex = uploadedFiles.findIndex(f => f === file);
                   return (
-                    <div key={originalIndex} className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 
-                                                      rounded-xl border-2 border-blue-200 hover:shadow-lg transition-all duration-200">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                          <Image className="w-6 h-6 text-white" />
+                    <div 
+                      key={originalIndex} 
+                      className="card-interactive p-6 group"
+                      style={{ animationDelay: `${(videoFiles.length + index) * 50}ms` }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center">
+                            <Image className="w-7 h-7 text-white" />
+                          </div>
+                          <div>
+                            <h5 className="font-semibold text-neutral-900 group-hover:text-blue-600 transition-colors duration-200">
+                              {file.fileName}
+                            </h5>
+                            <div className="flex items-center gap-4 text-sm text-neutral-600 mt-1">
+                              <span className="font-medium">{file.resolution.width}×{file.resolution.height}</span>
+                              <span>•</span>
+                              <span className="font-medium">{file.aspectRatio}</span>
+                              <span>•</span>
+                              <span className="font-medium">{formatFileSize(file.fileSize)}</span>
+                              <span>•</span>
+                              <span className="font-medium uppercase">{file.format}</span>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-bold text-gray-900">{file.fileName}</p>
-                          <p className="text-sm text-gray-600">
-                            {file.resolution.width}×{file.resolution.height} • {file.aspectRatio} • {formatFileSize(file.fileSize)} • {file.format.toUpperCase()}
-                          </p>
-                        </div>
+                        <button
+                          onClick={() => removeFile(originalIndex)}
+                          className="w-10 h-10 rounded-xl text-neutral-400 hover:text-error-500 hover:bg-error-50 transition-all duration-200 flex items-center justify-center"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => removeFile(originalIndex)}
-                        className="text-gray-400 hover:text-red-500 p-2 rounded-lg hover:bg-white transition-all duration-200"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
                     </div>
                   );
                 })}
