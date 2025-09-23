@@ -161,17 +161,6 @@
   }
 
   /* Animations */
-  .animate-in {
-    @apply animate-fade-in;
-  }
-
-  .animate-slide-up {
-    @apply animate-slide-up;
-  }
-
-  .animate-scale-in {
-    @apply animate-scale-in;
-  }
 }
 
 @layer utilities {
