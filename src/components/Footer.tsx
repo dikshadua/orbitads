@@ -8,7 +8,7 @@ export const Footer: React.FC<FooterProps> = ({ onShowPrivacyPolicy }) => {
   return (
     <footer className="bg-gradient-to-r from-gray-50 to-gray-100 border-t-2 border-gray-200 mt-auto">
       <div className="max-w-6xl mx-auto px-6 py-6">
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-center">
           <div className="text-gray-600 text-sm font-medium flex items-center space-x-4">
             <button 
               onClick={onShowPrivacyPolicy}
