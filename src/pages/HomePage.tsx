@@ -37,7 +37,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
             </div>
 
             {/* Primary CTA */}
-            <div className="mb-16">
+            <div className="mb-12">
               <button
                 onClick={onStartCheck}
                 className="inline-flex items-center px-8 py-4 bg-brand-500 text-white font-semibold text-lg rounded-2xl 
@@ -53,10 +53,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
       </section>
 
       {/* Features Section */}
-      <section className="relative py-24 bg-white/50">
+      <section className="relative py-16 bg-white/50">
         <div className="max-w-6xl mx-auto px-6">
           {/* Section header */}
-          <div className="text-center mb-20">
+          <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6 tracking-tight">
               Built for speed
             </h2>
