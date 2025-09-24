@@ -15,21 +15,21 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
       
       {/* Hero Section */}
       <section className="relative">
-        <div className="max-w-5xl mx-auto px-6 pt-20 pb-32">
+        <div className="max-w-5xl mx-auto px-6 pt-16 pb-20">
           <div className="text-center">
             {/* Logo */}
-            <div className="flex justify-center mb-12">
+            <div className="flex justify-center mb-8">
               <Logo className="h-64 w-auto drop-shadow-sm" />
             </div>
 
             {/* Headline */}
-            <div className="mb-8 -mt-16">
+            <div className="mb-8 -mt-12">
               <h1 className="text-6xl md:text-7xl font-bold text-neutral-900 tracking-tight mb-6 text-balance">
                 Compliance.
                 <br />
                 <span className="text-brand-500">Simplified.</span>
               </h1>
-              <p className="text-xl md:text-2xl text-neutral-600 font-normal leading-relaxed max-w-3xl mx-auto text-balance">
+              <p className="text-lg md:text-xl text-neutral-600 font-normal leading-relaxed max-w-2xl mx-auto text-balance">
                 Ensure your ads meet platform requirements before you launch.
                 <br />
                 Save time, avoid rejections.
@@ -37,7 +37,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
             </div>
 
             {/* Primary CTA */}
-            <div className="mb-12">
+            <div>
               <button
                 onClick={onStartCheck}
                 className="inline-flex items-center px-8 py-4 bg-brand-500 text-white font-semibold text-lg rounded-2xl 
@@ -53,14 +53,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
       </section>
 
       {/* Features Section */}
-      <section className="relative py-16 bg-white/50">
+      <section className="relative py-12 bg-white/50">
         <div className="max-w-6xl mx-auto px-6">
           {/* Section header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6 tracking-tight">
               Built for speed
             </h2>
-            <p className="text-xl text-neutral-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
               Three capabilities that transform how you handle ad compliance
             </p>
           </div>
@@ -124,12 +124,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
       </section>
 
       {/* Bottom CTA */}
-      <section className="relative py-24">
+      <section className="relative py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-6 tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-4 tracking-tight">
             Ready to streamline compliance?
           </h2>
-          <p className="text-lg text-neutral-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base text-neutral-600 mb-6 max-w-xl mx-auto leading-relaxed">
             Join teams who've eliminated manual compliance checks
           </p>
           <button
