@@ -49,15 +49,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
               </button>
             </div>
 
-            {/* Trust indicators */}
-            <div className="flex items-center justify-center gap-8 text-sm text-neutral-500">
-              <span className="font-medium">Real-time updates</span>
-              <div className="w-1 h-1 bg-neutral-300 rounded-full"></div>
-              <span className="font-medium">Enterprise security</span>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Features Section */}
       <section className="relative py-24 bg-white/50">
