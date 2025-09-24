@@ -92,7 +92,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ formData, fileAnalyzes
             <h3 className="text-3xl font-bold text-gray-900 mb-4">
               Analyzing Compliance
             </h3>
-            <p className="text-gray-600 mb-8 text-lg">
+            <p className="text-gray-600 mb-8 text-xl">
               Checking ad specs and brand safety across {formData.selectedPublishers.length} publishers...
             </p>
             
@@ -126,13 +126,13 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ formData, fileAnalyzes
                   <Shield className="w-10 h-10 mr-4" />
                   Compliance Analysis Complete
                 </h2>
-                <p className="mt-2 text-orange-100 text-lg">
+                <p className="mt-2 text-orange-100 text-xl">
                   Your comprehensive compliance report is ready
                 </p>
               </div>
               <div className="text-right">
                 <div className="text-sm text-orange-100 mb-1">Campaign</div>
-                <div className="font-bold text-2xl">{formData.brandName}</div>
+                <div className="font-bold text-xl">{formData.brandName}</div>
                 <div className="text-sm text-orange-200">
                   {fileAnalyzes.length} asset{fileAnalyzes.length !== 1 ? 's' : ''} • {formData.selectedPublishers.length} publishers
                 </div>
