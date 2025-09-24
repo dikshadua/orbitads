@@ -43,10 +43,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
           {/* Trust Indicators */}
           <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500 mb-8">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="font-medium">12+ Platforms Supported</span>
-            </div>
-            <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-[#CC5500] rounded-full animate-pulse"></div>
               <span className="font-medium">Real-time Policy Updates</span>
             </div>
@@ -62,15 +58,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
       <section className="relative z-10 py-16 bg-gradient-to-b from-transparent to-gray-100/50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-20 animate-slide-up">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-semibold mb-6">
-              <Target className="w-4 h-4" />
-              Why Choose Orbit Ads
-            </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Built for modern advertising teams
+              How It Works
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Stop wasting time on manual compliance checks. Get instant feedback and ship faster.
+              Simple three-step process to check your ads for compliance.
             </p>
           </div>
           
@@ -81,21 +73,21 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
                 title: "Comprehensive Coverage",
                 description: "Check against 12+ major platforms including TikTok, YouTube, Disney+, Netflix, and more. Real-time policy updates ensure you're always compliant.",
                 color: "green",
-                stats: "12+ Platforms"
+                stats: "Comprehensive"
               },
               {
                 icon: Clock,
                 title: "Instant Analysis",
                 description: "Get detailed compliance reports in seconds, not hours. Identify issues before they become costly rejections or delays.",
                 color: "orange",
-                stats: "< 30 Seconds"
+                stats: "Fast Results"
               },
               {
                 icon: Shield,
                 title: "Brand Safety First",
                 description: "Advanced content analysis detects potential policy violations and brand safety issues across all your creative assets.",
                 color: "blue",
-                stats: "99.9% Accuracy"
+                stats: "Reliable"
               }
             ].map((feature, index) => (
               <div 
@@ -141,7 +133,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
       <section className="relative z-10 py-16 bg-white/50 backdrop-blur-sm border-y border-gray-200">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-8">Trusted by advertising teams worldwide</p>
             <div className="flex flex-wrap items-center justify-center gap-12 opacity-60">
               {/* Placeholder for client logos */}
               <div className="h-8 w-24 bg-gray-200 rounded"></div>
