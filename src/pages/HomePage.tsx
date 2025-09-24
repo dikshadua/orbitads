@@ -129,21 +129,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
         </div>
       </section>
 
-      {/* Social Proof Section */}
-      <section className="relative z-10 py-16 bg-white/50 backdrop-blur-sm border-y border-gray-200">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center">
-            <div className="flex flex-wrap items-center justify-center gap-12 opacity-60">
-              {/* Placeholder for client logos */}
-              <div className="h-8 w-24 bg-gray-200 rounded"></div>
-              <div className="h-8 w-32 bg-gray-200 rounded"></div>
-              <div className="h-8 w-28 bg-gray-200 rounded"></div>
-              <div className="h-8 w-36 bg-gray-200 rounded"></div>
-              <div className="h-8 w-24 bg-gray-200 rounded"></div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
