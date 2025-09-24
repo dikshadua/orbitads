@@ -48,7 +48,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
                 <ArrowRight className="ml-3 w-5 h-5" />
               </button>
             </div>
-
+          </div>
+        </div>
+      </section>
 
       {/* Features Section */}
       <section className="relative py-24 bg-white/50">
