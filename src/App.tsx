@@ -95,7 +95,7 @@ function App() {
               </div>
 
               <div className="flex items-center justify-center mb-4">
-                <h1 className="text-5xl font-bold text-[#CC5500] -mt-24 mb-4">
+                <h1 className="text-5xl font-bold text-black -mt-24 mb-4">
                   Ad Compliance Checker
                 </h1>
               </div>
