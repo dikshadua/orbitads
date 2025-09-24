@@ -19,7 +19,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
           <div className="text-center">
             {/* Logo */}
             <div className="flex justify-center mb-8">
-              <Logo className="h-64 w-auto drop-shadow-sm" />
+              <Logo className="h-80 w-auto drop-shadow-lg" />
             </div>
 
             {/* Headline */}
