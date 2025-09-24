@@ -85,11 +85,11 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
           <div className="relative z-10">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-5xl font-bold flex items-center text-white mb-3">
+                <h1 className="text-headline flex items-center text-white mb-3">
                   <Building2 className="w-8 h-8 mr-4" />
                   Advertiser Details
                 </h1>
-                <p className="text-xl text-orange-100 max-w-2xl">
+                <p className="text-lg text-brand-100 max-w-2xl">
                   Tell us about your brand and campaign requirements to get started
                 </p>
               </div>
@@ -104,10 +104,10 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
         <div className="space-y-10">
           {/* Advertiser Name */}
           <div className="space-y-3">
-            <label className="block text-sm font-semibold text-gray-700 flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-[#CC5500]" />
+            <label className="block text-sm font-semibold text-neutral-700 flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-brand-500" />
               Advertiser Name
-              <span className="text-red-500">*</span>
+              <span className="text-error-500">*</span>
             </label>
             <div className="relative">
               <input
@@ -122,14 +122,14 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
                 }`}
               />
               {getInputState('brandName') === 'success' && (
-                <CheckCircle2 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500" />
+                <CheckCircle2 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-success-500" />
               )}
               {getInputState('brandName') === 'error' && (
-                <AlertCircle className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" />
+                <AlertCircle className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-error-500" />
               )}
             </div>
             {errors.brandName && (
-              <div className="flex items-center gap-2 text-sm text-red-600 animate-slide-down">
+              <div className="flex items-center gap-2 text-sm text-error-600 animate-slide-down">
                 <AlertCircle className="w-4 h-4" />
                 {errors.brandName}
               </div>
@@ -138,10 +138,10 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
 
           {/* Website URL */}
           <div className="space-y-3">
-            <label className="block text-sm font-semibold text-gray-700 flex items-center gap-2">
-              <Globe className="w-4 h-4 text-[#CC5500]" />
+            <label className="block text-sm font-semibold text-neutral-700 flex items-center gap-2">
+              <Globe className="w-4 h-4 text-brand-500" />
               Website URL
-              <span className="text-red-500">*</span>
+              <span className="text-error-500">*</span>
             </label>
             <div className="relative">
               <input
@@ -156,19 +156,19 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
                 }`}
               />
               {getInputState('websiteUrl') === 'success' && (
-                <CheckCircle2 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500" />
+                <CheckCircle2 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-success-500" />
               )}
               {getInputState('websiteUrl') === 'error' && (
-                <AlertCircle className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" />
+                <AlertCircle className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-error-500" />
               )}
             </div>
             {errors.websiteUrl && (
-              <div className="flex items-center gap-2 text-sm text-red-600 animate-slide-down">
+              <div className="flex items-center gap-2 text-sm text-error-600 animate-slide-down">
                 <AlertCircle className="w-4 h-4" />
                 {errors.websiteUrl}
               </div>
             )}
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+            <div className="flex items-center gap-2 text-sm text-neutral-500">
               <Info className="w-4 h-4" />
               We'll analyze your website for brand safety compliance
             </div>
@@ -176,10 +176,10 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
 
           {/* IAB Industry */}
           <div className="space-y-3">
-            <label className="block text-sm font-semibold text-gray-700 flex items-center gap-2">
-              <Tag className="w-4 h-4 text-[#CC5500]" />
+            <label className="block text-sm font-semibold text-neutral-700 flex items-center gap-2">
+              <Tag className="w-4 h-4 text-brand-500" />
               IAB Industry Category
-              <span className="text-gray-400 text-xs">(Optional)</span>
+              <span className="text-neutral-400 text-xs">(Optional)</span>
             </label>
             <select
               value={localFormData.iabIndustry}
@@ -193,7 +193,7 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
                 </option>
               ))}
             </select>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+            <div className="flex items-center gap-2 text-sm text-neutral-500">
               <Info className="w-4 h-4" />
               Helps us provide more accurate compliance recommendations
             </div>
@@ -202,13 +202,13 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
           {/* Publisher Selection */}
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <label className="block text-sm font-semibold text-gray-700 flex items-center gap-2">
-                <Users className="w-4 h-4 text-[#CC5500]" />
+              <label className="block text-sm font-semibold text-neutral-700 flex items-center gap-2">
+                <Users className="w-4 h-4 text-brand-500" />
                 Target Publishers
-                <span className="text-red-500">*</span>
+                <span className="text-error-500">*</span>
               </label>
               {localFormData.selectedPublishers.length > 0 && (
-                <div className="flex items-center gap-2 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                <div className="flex items-center gap-2 px-3 py-1 bg-success-100 text-success-700 rounded-full text-sm font-medium">
                   <CheckCircle2 className="w-4 h-4" />
                   {localFormData.selectedPublishers.length} selected
                 </div>
@@ -230,15 +230,15 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
                     style={{ animationDelay: `${categoryIndex * 100}ms` }}
                   >
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-3">
+                      <h3 className="text-lg font-semibold text-neutral-900 flex items-center gap-3">
                         <div className={`w-3 h-3 rounded-full ${
                           category === 'Social' ? 'bg-blue-500' : 
-                          category === 'Video' ? 'bg-green-500' : 'bg-purple-500'
+                          category === 'Video' ? 'bg-success-500' : 'bg-purple-500'
                         }`}></div>
                         {category} Platforms
                       </h3>
                       {selectedInCategory > 0 && (
-                        <span className="text-sm text-gray-500 font-medium">
+                        <span className="text-sm text-neutral-500 font-medium">
                           {selectedInCategory} of {categoryPublishers.length} selected
                         </span>
                       )}
@@ -262,19 +262,19 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
                               <div className="flex-1">
                                 <div className="flex items-center gap-3 mb-2">
                                   <h4 className={`font-semibold transition-colors duration-200 ${
-                                    isSelected ? 'text-[#CC5500]' : 'text-gray-900 group-hover:text-[#CC5500]'
+                                    isSelected ? 'text-brand-700' : 'text-neutral-900 group-hover:text-brand-600'
                                   }`}>
                                     {publisher.name}
                                   </h4>
                                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                     category === 'Social' ? 'bg-blue-100 text-blue-700' :
-                                    category === 'Video' ? 'bg-green-100 text-green-700' :
+                                    category === 'Video' ? 'bg-success-100 text-success-700' :
                                     'bg-purple-100 text-purple-700'
                                   }`}>
                                     {publisher.category}
                                   </span>
                                 </div>
-                                <div className="flex items-center gap-4 text-sm text-gray-600">
+                                <div className="flex items-center gap-4 text-sm text-neutral-600">
                                   <span>Max {publisher.technicalSpecs.maxDuration}s</span>
                                   <span>•</span>
                                   <span>{publisher.technicalSpecs.formats.join(', ').toUpperCase()}</span>
@@ -282,8 +282,8 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
                               </div>
                               <div className={`w-6 h-6 rounded-full border-2 transition-all duration-200 flex items-center justify-center ${
                                 isSelected
-                                  ? 'border-[#CC5500] bg-[#CC5500] scale-110'
-                                  : 'border-gray-300 group-hover:border-[#CC5500]'
+                                  ? 'border-brand-500 bg-brand-500 scale-110'
+                                  : 'border-neutral-300 group-hover:border-brand-400'
                               }`}>
                                 {isSelected && (
                                   <CheckCircle2 className="w-4 h-4 text-white" />
@@ -300,7 +300,7 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
             </div>
             
             {errors.selectedPublishers && (
-              <div className="flex items-center gap-2 text-sm text-red-600 animate-slide-down">
+              <div className="flex items-center gap-2 text-sm text-error-600 animate-slide-down">
                 <AlertCircle className="w-4 h-4" />
                 {errors.selectedPublishers}
               </div>
@@ -309,20 +309,17 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
         </div>
 
         {/* Footer */}
-        <div className="flex justify-between items-center mt-16 pt-8 border-t-2 border-gray-100">
-          <div className="text-sm text-gray-500">
+        <div className="flex justify-between items-center mt-16 pt-8 border-t-2 border-neutral-100">
+          <div className="text-sm text-neutral-500">
             Step 1 of 3 • Campaign Details
           </div>
           <button
             onClick={handleNext}
             disabled={!isValid}
-            className="flex items-center px-8 py-4 bg-[#CC5500] text-white font-bold rounded-xl 
-                     hover:bg-[#B84A00] hover:scale-105 hover:-translate-y-1
-                     disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0
-                     transition-all duration-200 shadow-lg hover:shadow-xl focus:ring-4 focus:ring-orange-100 focus:outline-none text-lg group"
+            className="btn-primary text-lg px-8 py-4 group"
           >
             Continue to Upload
-            <ArrowRight className="w-5 h-5 ml-3" />
+            <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-200" />
           </button>
         </div>
       </div>

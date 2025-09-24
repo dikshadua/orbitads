@@ -28,11 +28,11 @@ export const CreativeUploadPage: React.FC<CreativeUploadPageProps> = ({ formData
                 <FileVideo className="w-8 h-8 mr-3" />
                 Creative Upload
               </h2>
-              <p className="mt-2 text-orange-100 text-xl">Upload your creative assets for compliance checking</p>
+              <p className="mt-2 text-orange-100">Upload your creative assets for compliance checking</p>
             </div>
             <div className="text-right">
               <div className="text-sm text-orange-100 mb-1">Campaign</div>
-              <div className="font-bold text-xl">{formData.brandName}</div>
+              <div className="font-bold text-lg">{formData.brandName}</div>
               <div className="text-sm text-orange-200">{formData.selectedPublishers.length} publishers selected</div>
             </div>
           </div>
@@ -49,27 +49,27 @@ export const CreativeUploadPage: React.FC<CreativeUploadPageProps> = ({ formData
         {fileAnalyzes.length > 0 && (
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-6 mb-8">
             <div className="flex items-center mb-4">
-              <CheckCircle2 className="w-6 h-6 text-green-500 mr-3" />
-              <h3 className="text-xl font-bold text-green-700">Files Ready for Analysis</h3>
+              <CheckCircle2 className="w-6 h-6 text-green-600 mr-3" />
+              <h3 className="text-lg font-bold text-green-800">Files Ready for Analysis</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-white rounded-lg p-4 border border-green-200">
-                <div className="text-2xl font-bold text-green-500">
+                <div className="text-2xl font-bold text-green-600">
                   {fileAnalyzes.filter(f => f.fileType === 'video').length}
                 </div>
-                <div className="text-sm text-green-600 font-semibold">Video Assets</div>
+                <div className="text-sm text-green-700 font-semibold">Video Assets</div>
               </div>
               <div className="bg-white rounded-lg p-4 border border-green-200">
-                <div className="text-2xl font-bold text-green-500">
+                <div className="text-2xl font-bold text-green-600">
                   {fileAnalyzes.filter(f => f.fileType === 'image').length}
                 </div>
-                <div className="text-sm text-green-600 font-semibold">Static Assets</div>
+                <div className="text-sm text-green-700 font-semibold">Static Assets</div>
               </div>
               <div className="bg-white rounded-lg p-4 border border-green-200">
-                <div className="text-2xl font-bold text-green-500">
+                <div className="text-2xl font-bold text-green-600">
                   {formData.selectedPublishers.length}
                 </div>
-                <div className="text-sm text-green-600 font-semibold">Publishers</div>
+                <div className="text-sm text-green-700 font-semibold">Publishers</div>
               </div>
             </div>
           </div>

@@ -11,7 +11,7 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({ onBack }) 
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <header className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-[#CC5500] mb-4 flex items-center justify-center">
+          <h1 className="text-4xl font-bold text-[#CC5500] mb-4 flex items-center justify-center">
             Privacy Policy
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12 leading-relaxed">
@@ -28,36 +28,36 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({ onBack }) 
               </p>
 
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Overview</h2>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-700 mb-6">
                 This Privacy Policy explains how we handle information when you use our asset analysis service.
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-4">Information We Collect</h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-700 mb-6">
                 We do <strong>not</strong> collect or store any uploaded assets, files, or personal information. 
                 All analysis is performed temporarily in memory and deleted immediately after results are displayed.
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-4">Cookies & Technical Info</h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-700 mb-6">
                 We only use essential cookies for basic functionality. Standard server logs (IP address, browser type, 
                 access times) may be collected temporarily for system operation and security.
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-4">Third-Party Services</h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-700 mb-6">
                 We do not share any uploaded content with third parties. Any references to publisher guidelines 
                 are publicly available information.
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-4">Data Security</h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-700 mb-6">
                 Although no data is stored, we protect temporary processing with secure transmission (HTTPS) 
                 and automated data deletion.
               </p>
 
               <h3 className="text-xl font-bold text-gray-900 mb-4">Changes to This Policy</h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-700 mb-6">
                 We may update this Privacy Policy occasionally. Changes will be posted here.
               </p>
             </div>
