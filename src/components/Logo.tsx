@@ -11,7 +11,7 @@ export const Logo: React.FC<LogoProps> = ({
 }) => {
   return (
     <img 
-      src="/ORBIT_ADS_Logo__2_-removebg-preview.svg" 
+      src="/ChatGPT Image Oct 2, 2025, 08_34_04 PM.svg" 
       alt={alt} 
       className={className}
     />
