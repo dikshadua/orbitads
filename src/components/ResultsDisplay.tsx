@@ -157,12 +157,6 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
               <div className="font-bold text-blue-600">{totalResults}</div>
             </div>
           </div>
-          {results.websiteAnalysis.aiExplanation && (
-            <div className="mt-4 p-4 bg-blue-50 border-2 border-blue-200 rounded-xl">
-              <div className="font-semibold text-blue-800 mb-2">AI Policy Assessment</div>
-              <p className="text-blue-900 text-sm leading-relaxed">{results.websiteAnalysis.aiExplanation}</p>
-            </div>
-          )}
           {results.websiteAnalysis.detectedKeywords.length > 0 && (
             <div className="mt-4 p-4 bg-yellow-50 border-2 border-yellow-200 rounded-xl">
               <div className="font-semibold text-yellow-800 mb-2">Detected Categories:</div>
@@ -175,6 +169,17 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Brand Safety Analysis */}
+      {results.websiteAnalysis?.aiExplanation && (
+        <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100">
+          <h3 className="font-bold text-gray-900 mb-4 text-lg flex items-center">
+            <div className="w-2 h-2 bg-[#CC5500] rounded-full mr-2"></div>
+            Brand Safety Analysis
+          </h3>
+          <p className="text-gray-700 text-sm leading-relaxed">{results.websiteAnalysis.aiExplanation}</p>
         </div>
       )}
 
