@@ -59,7 +59,7 @@ Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
 
   try {
     const message = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'claude-3-5-haiku-20241022',
       max_tokens: 512,
       messages: [{ role: 'user', content: prompt }]
     });
@@ -69,11 +69,12 @@ Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
 
     return res.status(200).json(analysis);
   } catch (err) {
-    console.error('Claude API error:', err);
+    const errorMsg = err instanceof Error ? err.message : String(err);
+    console.error('Claude API error:', errorMsg);
     return res.status(200).json({
       detectedCategories: [],
       riskLevel: 'low',
-      aiExplanation: 'Automated analysis unavailable — please review this website manually before running campaigns.',
+      aiExplanation: `Debug: ${errorMsg}`,
       detectedKeywords: []
     });
   }
