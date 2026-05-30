@@ -1,16 +1,14 @@
 import Anthropic from '@anthropic-ai/sdk';
 
-export const config = { runtime: 'edge' };
-
-export default async function handler(req: Request): Promise<Response> {
+export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { url, iabIndustry, brandName } = await req.json();
+  const { url, iabIndustry, brandName } = req.body;
 
   if (!url) {
-    return new Response(JSON.stringify({ error: 'URL is required' }), { status: 400 });
+    return res.status(400).json({ error: 'URL is required' });
   }
 
   // Fetch website content server-side (no CORS issues)
@@ -21,7 +19,6 @@ export default async function handler(req: Request): Promise<Response> {
       signal: AbortSignal.timeout(10000)
     });
     const text = await response.text();
-    // Strip script/style tags and truncate to keep prompt focused
     htmlContent = text
       .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
       .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
@@ -70,16 +67,14 @@ Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
     const responseText = message.content[0].type === 'text' ? message.content[0].text : '{}';
     const analysis = JSON.parse(responseText);
 
-    return new Response(JSON.stringify(analysis), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  } catch {
-    return new Response(JSON.stringify({
+    return res.status(200).json(analysis);
+  } catch (err) {
+    console.error('Claude API error:', err);
+    return res.status(200).json({
       detectedCategories: [],
       riskLevel: 'low',
       aiExplanation: 'Automated analysis unavailable — please review this website manually before running campaigns.',
       detectedKeywords: []
-    }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    });
   }
 }
