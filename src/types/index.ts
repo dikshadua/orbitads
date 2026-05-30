@@ -73,6 +73,7 @@ export interface ComplianceResults {
   websiteAnalysis: {
     detectedKeywords: string[];
     riskLevel: 'low' | 'medium' | 'high';
+    aiExplanation?: string;
   };
   timestamp: string;
 }

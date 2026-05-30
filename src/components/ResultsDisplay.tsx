@@ -157,6 +157,15 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
               <div className="font-bold text-blue-600">{totalResults}</div>
             </div>
           </div>
+          {results.websiteAnalysis.aiExplanation && (
+            <div className="mt-4 p-4 bg-blue-50 border-2 border-blue-200 rounded-xl">
+              <div className="font-semibold text-blue-800 mb-2 flex items-center gap-2">
+                <span>AI Policy Assessment</span>
+                <span className="text-xs font-normal bg-blue-200 text-blue-700 px-2 py-0.5 rounded-full">Powered by Claude</span>
+              </div>
+              <p className="text-blue-900 text-sm leading-relaxed">{results.websiteAnalysis.aiExplanation}</p>
+            </div>
+          )}
           {results.websiteAnalysis.detectedKeywords.length > 0 && (
             <div className="mt-4 p-4 bg-yellow-50 border-2 border-yellow-200 rounded-xl">
               <div className="font-semibold text-yellow-800 mb-2">Detected Categories:</div>
