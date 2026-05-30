@@ -159,10 +159,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
           </div>
           {results.websiteAnalysis.aiExplanation && (
             <div className="mt-4 p-4 bg-blue-50 border-2 border-blue-200 rounded-xl">
-              <div className="font-semibold text-blue-800 mb-2 flex items-center gap-2">
-                <span>AI Policy Assessment</span>
-                <span className="text-xs font-normal bg-blue-200 text-blue-700 px-2 py-0.5 rounded-full">Powered by Claude</span>
-              </div>
+              <div className="font-semibold text-blue-800 mb-2">AI Policy Assessment</div>
               <p className="text-blue-900 text-sm leading-relaxed">{results.websiteAnalysis.aiExplanation}</p>
             </div>
           )}
