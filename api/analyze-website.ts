@@ -59,7 +59,7 @@ Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
 
   try {
     const message = await client.messages.create({
-      model: 'claude-3-5-haiku-20241022',
+      model: 'claude-3-haiku-20240307',
       max_tokens: 512,
       messages: [{ role: 'user', content: prompt }]
     });
