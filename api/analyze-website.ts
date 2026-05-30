@@ -62,6 +62,19 @@ Rules:
 
 Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
 
+  // Debug: check available models
+  try {
+    const modelsRes = await fetch('https://api.anthropic.com/v1/models', {
+      headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' }
+    });
+    const modelsData = await modelsRes.json() as any;
+    return res.status(200).json({
+      detectedCategories: [], riskLevel: 'low',
+      aiExplanation: `Available models: ${JSON.stringify(modelsData)}`,
+      detectedKeywords: []
+    });
+  } catch (e) {}
+
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
