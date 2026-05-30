@@ -16,7 +16,7 @@ export default async function handler(req: any, res: any) {
   try {
     const response = await fetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (compatible; OrbitAds/1.0; +https://orbitads.app)' },
-      signal: AbortSignal.timeout(10000)
+      signal: AbortSignal.timeout(5000)
     });
     const text = await response.text();
     htmlContent = text
