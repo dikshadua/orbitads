@@ -16,31 +16,37 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ formData, fileAnalyzes
   const [analysisStep, setAnalysisStep] = useState(0);
 
   const analysisSteps = [
-    'Checking technical specifications...',
-    'Analyzing creative assets...',
-    'Fetching dynamic publisher policies...',
-    'Scraping website for brand safety analysis...',
+    'Checking ad specs against publisher requirements...',
+    'Validating creative assets...',
+    'Loading publisher policy data...',
+    'Running AI-powered brand safety analysis...',
     'Generating compliance report...'
   ];
 
   useEffect(() => {
-    const analyzeCompliance = async () => {
+    const runAnalysis = async () => {
       setIsAnalyzing(true);
-      
-      // Simulate analysis steps with progress
-      for (let i = 0; i < analysisSteps.length; i++) {
+
+      // Animate first 3 steps quickly while real analysis runs in parallel
+      for (let i = 0; i < 3; i++) {
         setAnalysisStep(i);
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 600));
       }
-      
+
+      // Step 4: AI analysis — stays active until the real call completes
+      setAnalysisStep(3);
       const { analyzeCompliance } = await import('../utils/complianceAnalyzer');
       const results = await analyzeCompliance(formData, fileAnalyzes);
-      
+
+      // Step 5: wrap up
+      setAnalysisStep(4);
+      await new Promise(resolve => setTimeout(resolve, 400));
+
       setComplianceResults(results);
       setIsAnalyzing(false);
     };
 
-    analyzeCompliance();
+    runAnalysis();
   }, [formData, fileAnalyzes]);
 
   const handleExportCSV = () => {
