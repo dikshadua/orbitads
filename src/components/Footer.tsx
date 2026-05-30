@@ -17,7 +17,7 @@ export const Footer: React.FC<FooterProps> = ({ onShowPrivacyPolicy }) => {
               Privacy Policy
             </button>
             <span className="text-gray-400 hidden sm:inline">•</span>
-            <span className="whitespace-nowrap">© 2025 Orbit Ads. All Rights Reserved.</span>
+            <span className="whitespace-nowrap">© 2026 Orbit Ads. All Rights Reserved.</span>
           </div>
         </div>
       </div>
