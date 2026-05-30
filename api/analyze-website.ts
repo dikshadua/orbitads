@@ -1,5 +1,3 @@
-import Anthropic from '@anthropic-ai/sdk';
-
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -11,11 +9,20 @@ export default async function handler(req: any, res: any) {
     return res.status(400).json({ error: 'URL is required' });
   }
 
-  // Fetch website content server-side (no CORS issues)
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    return res.status(200).json({
+      detectedCategories: [], riskLevel: 'low',
+      aiExplanation: 'Debug: ANTHROPIC_API_KEY is not set in environment variables.',
+      detectedKeywords: []
+    });
+  }
+
+  // Fetch website content server-side
   let htmlContent = '';
   try {
     const response = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; OrbitAds/1.0; +https://orbitads.app)' },
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; OrbitAds/1.0)' },
       signal: AbortSignal.timeout(5000)
     });
     const text = await response.text();
@@ -29,8 +36,6 @@ export default async function handler(req: any, res: any) {
   } catch {
     htmlContent = `Could not fetch content from ${url}`;
   }
-
-  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
   const prompt = `You are an ad policy compliance expert analyzing a website for brand safety and advertiser eligibility.
 
@@ -52,28 +57,43 @@ Analyze this website and return a JSON response with this exact structure:
 Rules:
 - detectedCategories: array of flagged categories from this list only: crypto, gambling, alcohol, healthcare, financial, adult, misleading. Empty array if none.
 - riskLevel: "low" (no issues), "medium" (requires approval), or "high" (likely prohibited)
-- aiExplanation: 2-3 sentences explaining the brand safety assessment. Be specific — name the exact concerns and which types of publishers would reject or flag this advertiser. If clean, say so clearly.
-- detectedKeywords: specific words or phrases from the content that triggered flags. Empty array if none.
+- aiExplanation: 2-3 sentences explaining the brand safety assessment. Be specific about concerns and which publishers would flag this. If clean, say so clearly.
+- detectedKeywords: specific words/phrases that triggered flags. Empty array if none.
 
 Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
 
   try {
-    const message = await client.messages.create({
-      model: 'claude-3-haiku-20240307',
-      max_tokens: 512,
-      messages: [{ role: 'user', content: prompt }]
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-3-haiku-20240307',
+        max_tokens: 512,
+        messages: [{ role: 'user', content: prompt }]
+      })
     });
 
-    const responseText = message.content[0].type === 'text' ? message.content[0].text : '{}';
-    const analysis = JSON.parse(responseText);
+    const data = await response.json() as any;
 
+    if (!response.ok) {
+      return res.status(200).json({
+        detectedCategories: [], riskLevel: 'low',
+        aiExplanation: `Debug: ${response.status} ${JSON.stringify(data)}`,
+        detectedKeywords: []
+      });
+    }
+
+    const responseText = data.content?.[0]?.text || '{}';
+    const analysis = JSON.parse(responseText);
     return res.status(200).json(analysis);
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : String(err);
-    console.error('Claude API error:', errorMsg);
     return res.status(200).json({
-      detectedCategories: [],
-      riskLevel: 'low',
+      detectedCategories: [], riskLevel: 'low',
       aiExplanation: `Debug: ${errorMsg}`,
       detectedKeywords: []
     });
