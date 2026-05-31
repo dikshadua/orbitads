@@ -82,19 +82,20 @@ Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
     if (!response.ok) {
       return res.status(200).json({
         detectedCategories: [], riskLevel: 'low',
-        aiExplanation: `Debug: ${response.status} ${JSON.stringify(data)}`,
+        aiExplanation: 'Automated analysis unavailable — please review this website manually before running campaigns.',
         detectedKeywords: []
       });
     }
 
     const responseText = data.content?.[0]?.text || '{}';
-    const analysis = JSON.parse(responseText);
+    const cleanedText = responseText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim();
+    const analysis = JSON.parse(cleanedText);
     return res.status(200).json(analysis);
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : String(err);
     return res.status(200).json({
       detectedCategories: [], riskLevel: 'low',
-      aiExplanation: `Debug catch: ${errorMsg}`,
+      aiExplanation: 'Automated analysis unavailable — please review this website manually before running campaigns.',
       detectedKeywords: []
     });
   }
