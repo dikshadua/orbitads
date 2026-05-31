@@ -82,7 +82,7 @@ Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
     if (!response.ok) {
       return res.status(200).json({
         detectedCategories: [], riskLevel: 'low',
-        aiExplanation: 'Automated analysis unavailable — please review this website manually before running campaigns.',
+        aiExplanation: `Debug: ${response.status} ${JSON.stringify(data)}`,
         detectedKeywords: []
       });
     }
@@ -94,7 +94,7 @@ Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
     const errorMsg = err instanceof Error ? err.message : String(err);
     return res.status(200).json({
       detectedCategories: [], riskLevel: 'low',
-      aiExplanation: 'Automated analysis unavailable — please review this website manually before running campaigns.',
+      aiExplanation: `Debug catch: ${errorMsg}`,
       detectedKeywords: []
     });
   }
