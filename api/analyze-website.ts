@@ -62,19 +62,6 @@ Rules:
 
 Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
 
-  // Debug: check available models
-  try {
-    const modelsRes = await fetch('https://api.anthropic.com/v1/models', {
-      headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' }
-    });
-    const modelsData = await modelsRes.json() as any;
-    return res.status(200).json({
-      detectedCategories: [], riskLevel: 'low',
-      aiExplanation: `Available models: ${JSON.stringify(modelsData)}`,
-      detectedKeywords: []
-    });
-  } catch (e) {}
-
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -84,7 +71,7 @@ Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-3-haiku-20240307',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 512,
         messages: [{ role: 'user', content: prompt }]
       })
@@ -95,7 +82,7 @@ Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
     if (!response.ok) {
       return res.status(200).json({
         detectedCategories: [], riskLevel: 'low',
-        aiExplanation: `Debug: ${response.status} ${JSON.stringify(data)}`,
+        aiExplanation: 'Automated analysis unavailable — please review this website manually before running campaigns.',
         detectedKeywords: []
       });
     }
@@ -107,7 +94,7 @@ Return ONLY valid JSON. No markdown, no code blocks, no other text.`;
     const errorMsg = err instanceof Error ? err.message : String(err);
     return res.status(200).json({
       detectedCategories: [], riskLevel: 'low',
-      aiExplanation: `Debug: ${errorMsg}`,
+      aiExplanation: 'Automated analysis unavailable — please review this website manually before running campaigns.',
       detectedKeywords: []
     });
   }
