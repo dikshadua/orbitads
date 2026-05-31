@@ -183,6 +183,11 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
         </div>
       )}
 
+      {/* Debug */}
+      <div className="text-xs text-gray-400 p-2">
+        Debug: {results.publisherResults.length} publisher results, {results.fileAnalyzes.length} files
+      </div>
+
       {/* Results by Publisher */}
       <div className="space-y-6">
         {Object.entries(filteredResultsByPublisher).map(([publisherName, publisherResults]) => {
