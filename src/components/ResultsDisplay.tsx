@@ -286,16 +286,16 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                       )}
                     </div>
 
-                    {/* Technical Compliance */}
+                    {/* Ad Specs */}
                     <div className="mb-4">
                       <h4 className="font-bold text-gray-900 mb-3 flex items-center">
                         <div className="w-2 h-2 bg-[#CC5500] rounded-full mr-2"></div>
-                        Technical Compliance
+                        Ad Specs
                       </h4>
                       {result.adSpecs.issues.length === 0 ? (
                         <div className="flex items-center gap-2 text-green-600 bg-green-50 p-3 rounded-lg border border-green-200">
                           <CheckCircle className="w-5 h-5" />
-                          <span className="font-semibold">All technical requirements met</span>
+                          <span className="font-semibold">All specs met</span>
                         </div>
                       ) : (
                         <div className="space-y-2">
@@ -318,7 +318,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
                       {result.brandSafety.issues.length === 0 ? (
                         <div className="flex items-center gap-2 text-green-600 bg-green-50 p-3 rounded-lg border border-green-200">
                           <CheckCircle className="w-5 h-5" />
-                          <span className="font-semibold">No policy violations detected</span>
+                          <span className="font-semibold">No brand safety issues detected</span>
                         </div>
                       ) : (
                         <div className="space-y-2">
