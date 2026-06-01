@@ -82,7 +82,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
               {
                 icon: Shield,
                 title: "Brand Safety",
-                description: "AI detection of policy violations — gambling, crypto, misleading claims — before they get your ads rejected.",
+                description: "AI detection of policy violations (gambling, crypto, misleading claims) before they get your ads rejected.",
                 color: "blue"
               }
             ].map((feature, index) => (
