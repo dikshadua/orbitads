@@ -28,7 +28,7 @@ export const CreativeUploadPage: React.FC<CreativeUploadPageProps> = ({ formData
                 <FileVideo className="w-8 h-8 mr-3" />
                 Creative Upload
               </h2>
-              <p className="mt-2 text-orange-100">Upload your creative assets for compliance checking</p>
+              <p className="mt-2 text-orange-100">Upload your creative assets to get started</p>
             </div>
             <div className="text-right">
               <div className="text-sm text-orange-100 mb-1">Campaign</div>
