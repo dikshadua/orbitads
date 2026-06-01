@@ -94,7 +94,7 @@ export const CreativeUploadPage: React.FC<CreativeUploadPageProps> = ({ formData
                      disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0
                      transition-all duration-200 shadow-lg hover:shadow-xl focus:ring-4 focus:ring-orange-100 focus:outline-none"
           >
-            Analyze Compliance
+            Analyze
             <ArrowRight className="w-5 h-5 ml-2" />
           </button>
         </div>

@@ -242,7 +242,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
                 <h3 className="text-xl font-bold text-neutral-900">
                   Uploaded Assets ({uploadedFiles.length})
                 </h3>
-                <p className="text-sm text-neutral-600">Ready for compliance analysis</p>
+                <p className="text-sm text-neutral-600">Assets detected and ready</p>
               </div>
             </div>
             <button
