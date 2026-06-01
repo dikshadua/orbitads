@@ -87,7 +87,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
           const divisor = gcd(width, height);
           const aspectRatio = `${width / divisor}:${height / divisor}`;
           const imageBase64 = resizeToBase64(img);
-          const mimeType = file.type || 'image/jpeg';
+          const mimeType = 'image/jpeg'; // canvas.toDataURL always outputs JPEG
           URL.revokeObjectURL(objectUrl);
           resolve({
             fileName: file.name,
