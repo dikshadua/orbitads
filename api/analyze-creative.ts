@@ -6,7 +6,25 @@ export default async function handler(req: any, res: any) {
   const { imageBase64, mimeType, fileName, brandName, iabIndustry, publishers } = req.body;
 
   if (!imageBase64) {
-    return res.status(400).json({ error: 'Image data is required' });
+    return res.status(200).json({
+      model: 'claude',
+      violations: [],
+      confidence: 'low',
+      flagged: false,
+      summary: 'Debug: no imageBase64 received — capture may have failed in browser.'
+    });
+  }
+
+  // Log size for debugging (base64 string length / 1.33 ≈ bytes)
+  const estimatedKB = Math.round(imageBase64.length / 1333);
+  if (estimatedKB > 4000) {
+    return res.status(200).json({
+      model: 'claude',
+      violations: [],
+      confidence: 'low',
+      flagged: false,
+      summary: `Debug: image too large (${estimatedKB}KB). Reduce resize max or quality.`
+    });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -85,26 +103,38 @@ Return ONLY valid JSON. No markdown, no code blocks.`;
     const data = await response.json() as any;
 
     if (!response.ok) {
+      const errorDetail = data?.error?.message || JSON.stringify(data);
       return res.status(200).json({
         model: 'claude',
         violations: [],
         confidence: 'low',
         flagged: false,
-        summary: 'Creative review unavailable. Please review this creative manually before running campaigns.'
+        summary: `Debug API error: ${response.status} — ${errorDetail}`
       });
     }
 
     const responseText = data.content?.[0]?.text || '{}';
     const cleaned = responseText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim();
-    const analysis = JSON.parse(cleaned);
-    return res.status(200).json({ model: 'claude', ...analysis });
+    try {
+      const analysis = JSON.parse(cleaned);
+      return res.status(200).json({ model: 'claude', ...analysis });
+    } catch (parseErr) {
+      return res.status(200).json({
+        model: 'claude',
+        violations: [],
+        confidence: 'low',
+        flagged: false,
+        summary: `Debug parse error: ${cleaned.substring(0, 200)}`
+      });
+    }
   } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : String(err);
     return res.status(200).json({
       model: 'claude',
       violations: [],
       confidence: 'low',
       flagged: false,
-      summary: 'Creative review unavailable. Please review this creative manually before running campaigns.'
+      summary: `Debug catch: ${errorMsg}`
     });
   }
 }
