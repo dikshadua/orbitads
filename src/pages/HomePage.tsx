@@ -23,13 +23,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
             </div>
 
             {/* Headline */}
-            <div className="mb-6 sm:mb-8 -mt-8 sm:-mt-10 lg:-mt-12">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-bold text-neutral-900 tracking-tight mb-4 sm:mb-6 px-4 lg:whitespace-nowrap">
+            <div className="mb-8 sm:mb-10 -mt-6 sm:-mt-8 lg:-mt-10">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-bold text-neutral-900 tracking-tight mb-4 sm:mb-5 lg:whitespace-nowrap">
                 Ad Compliance & Brand Safety.
                 <br />
                 <span className="text-brand-500">Simplified.</span>
               </h1>
-              <p className="text-base sm:text-lg md:text-xl text-neutral-600 font-normal leading-relaxed max-w-2xl mx-auto text-balance px-4">
+              <p className="text-base sm:text-lg md:text-xl text-neutral-600 font-normal leading-relaxed max-w-2xl mx-auto px-4">
                 Check ad specs and brand safety across every major platform before you go live.
               </p>
             </div>
@@ -52,14 +52,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
       </section>
 
       {/* Features Section */}
-      <section className="relative py-8 sm:py-10 lg:py-12 bg-white/50">
+      <section className="relative py-14 sm:py-16 lg:py-20 bg-white/50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           {/* Section header */}
           <div className="text-center mb-8 sm:mb-10 lg:mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-900 mb-4 sm:mb-6 tracking-tight px-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-neutral-900 mb-4 sm:mb-5 tracking-tight">
               Built to catch what you'd miss
             </h2>
-            <p className="text-base sm:text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed px-4">
+            <p className="text-base sm:text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
               Three capabilities that replace the manual compliance checklist
             </p>
           </div>
@@ -125,10 +125,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
       {/* Bottom CTA */}
       <section className="relative py-10 sm:py-12 lg:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mb-3 sm:mb-4 tracking-tight px-4">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-neutral-900 mb-3 sm:mb-4 tracking-tight">
             Stop guessing. Start checking.
           </h2>
-          <p className="text-sm sm:text-base text-neutral-600 mb-5 sm:mb-6 max-w-xl mx-auto leading-relaxed px-4">
+          <p className="text-sm sm:text-base text-neutral-600 mb-5 sm:mb-6 max-w-xl mx-auto leading-relaxed">
             Run your ads through compliance and brand safety checks before they go live.
           </p>
           <button
