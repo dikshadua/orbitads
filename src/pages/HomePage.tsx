@@ -24,7 +24,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onStartCheck, onShowPrivacyP
 
             {/* Headline */}
             <div className="mb-6 sm:mb-8 -mt-8 sm:-mt-10 lg:-mt-12">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-neutral-900 tracking-tight mb-4 sm:mb-6 text-balance px-4">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-bold text-neutral-900 tracking-tight mb-4 sm:mb-6 px-4 lg:whitespace-nowrap">
                 Ad Compliance & Brand Safety.
                 <br />
                 <span className="text-brand-500">Simplified.</span>
