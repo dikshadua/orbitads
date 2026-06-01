@@ -277,10 +277,11 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
                                     {publisher.category}
                                   </span>
                                 </div>
-                                <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-neutral-600 flex-wrap">
-                                  <span>Max {publisher.technicalSpecs.maxDuration}s</span>
-                                  <span className="hidden sm:inline">•</span>
-                                  <span className="truncate">{publisher.technicalSpecs.formats.join(', ').toUpperCase()}</span>
+                                <div className="flex flex-col gap-0.5 text-xs sm:text-sm text-neutral-600">
+                                  <span>Video: {publisher.technicalSpecs.formats.join(', ').toUpperCase()} • Max {publisher.technicalSpecs.maxDuration}s</span>
+                                  {publisher.staticSpecs && (
+                                    <span>Static: {publisher.staticSpecs.formats.join(', ').toUpperCase()}</span>
+                                  )}
                                 </div>
                               </div>
                               <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 transition-all duration-200 flex items-center justify-center flex-shrink-0 ${
