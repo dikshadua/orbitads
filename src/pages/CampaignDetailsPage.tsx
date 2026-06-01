@@ -52,6 +52,10 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
       newErrors.websiteUrl = 'Please enter a valid URL starting with http:// or https://';
     }
 
+    if (!localFormData.iabIndustry) {
+      newErrors.iabIndustry = 'Please select an industry category';
+    }
+
     if (localFormData.selectedPublishers.length === 0) {
       newErrors.selectedPublishers = 'Please select at least one publisher';
     }
@@ -72,7 +76,7 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
     return 'default';
   };
 
-  const isValid = localFormData.brandName && localFormData.websiteUrl && localFormData.selectedPublishers.length > 0;
+  const isValid = localFormData.brandName && localFormData.websiteUrl && localFormData.iabIndustry && localFormData.selectedPublishers.length > 0;
 
   return (
     <div className="container-wide animate-slide-up">
@@ -174,7 +178,7 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
             <label className="block text-xs sm:text-sm font-semibold text-neutral-700 flex items-center gap-2">
               <Tag className="w-3 h-3 sm:w-4 sm:h-4 text-brand-500" />
               IAB Industry Category
-              <span className="text-neutral-400 text-xs">(Optional)</span>
+              <span className="text-error-500">*</span>
             </label>
             <select
               value={localFormData.iabIndustry}
@@ -188,6 +192,12 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
                 </option>
               ))}
             </select>
+            {errors.iabIndustry && (
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-error-600 animate-slide-down">
+                <AlertCircle className="w-3 h-3 sm:w-4 sm:h-4" />
+                {errors.iabIndustry}
+              </div>
+            )}
             <div className="flex items-center gap-2 text-xs sm:text-sm text-neutral-500">
               <Info className="w-3 h-3 sm:w-4 sm:h-4" />
               Helps us provide more accurate compliance recommendations
@@ -210,7 +220,7 @@ export const CampaignDetailsPage: React.FC<CampaignDetailsPageProps> = ({ formDa
             </div>
 
             <div className="space-y-6 sm:space-y-8">
-              {['Social', 'Video', 'CTV'].map((category, categoryIndex) => {
+              {['Social', 'CTV'].map((category, categoryIndex) => {
                 const categoryPublishers = PUBLISHERS.filter(p => p.category === category);
                 const selectedInCategory = categoryPublishers.filter(p =>
                   localFormData.selectedPublishers.includes(p.name)

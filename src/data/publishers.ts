@@ -97,7 +97,7 @@ export const PUBLISHERS: PublisherRequirements[] = [
   {
     name: 'YouTube',
     logo: '',
-    category: 'Video',
+    category: 'CTV',
     technicalSpecs: {
       formats: ['mp4', 'mov'],
       maxFileSize: 10000, // MB
@@ -254,5 +254,120 @@ export const PUBLISHERS: PublisherRequirements[] = [
       requiresApproval: ['alcohol', 'financial', 'healthcare', 'politics']
     },
     policyUrl: 'https://www.discovery.com/advertising'
+  },
+  {
+    name: 'Peacock',
+    logo: '',
+    category: 'CTV',
+    technicalSpecs: {
+      formats: ['mp4', 'mov'],
+      maxFileSize: 2000, // MB
+      maxDuration: 30, // seconds
+      minResolution: { width: 1920, height: 1080 },
+      aspectRatio: ['16:9']
+    },
+    staticSpecs: {
+      formats: ['jpg', 'png'],
+      maxFileSize: 2, // MB
+      minResolution: { width: 1280, height: 720 },
+      aspectRatio: ['16:9']
+    },
+    policyRestrictions: {
+      prohibited: ['crypto', 'adult', 'gambling'],
+      requiresApproval: ['alcohol', 'financial', 'healthcare', 'politics']
+    },
+    policyUrl: 'https://advertising.nbcuniversal.com/peacock'
+  },
+  {
+    name: 'Max',
+    logo: '',
+    category: 'CTV',
+    technicalSpecs: {
+      formats: ['mp4', 'mov'],
+      maxFileSize: 2000, // MB
+      maxDuration: 30, // seconds
+      minResolution: { width: 1920, height: 1080 },
+      aspectRatio: ['16:9']
+    },
+    staticSpecs: {
+      formats: ['jpg', 'png'],
+      maxFileSize: 2, // MB
+      minResolution: { width: 1280, height: 720 },
+      aspectRatio: ['16:9']
+    },
+    policyRestrictions: {
+      prohibited: ['crypto', 'adult', 'gambling'],
+      requiresApproval: ['alcohol', 'financial', 'healthcare', 'politics']
+    },
+    policyUrl: 'https://www.wbdadvertising.com'
+  },
+  {
+    name: 'Roku',
+    logo: '',
+    category: 'CTV',
+    technicalSpecs: {
+      formats: ['mp4', 'mov'],
+      maxFileSize: 2000, // MB
+      maxDuration: 30, // seconds
+      minResolution: { width: 1920, height: 1080 },
+      aspectRatio: ['16:9']
+    },
+    staticSpecs: {
+      formats: ['jpg', 'png'],
+      maxFileSize: 2, // MB
+      minResolution: { width: 1280, height: 720 },
+      aspectRatio: ['16:9']
+    },
+    policyRestrictions: {
+      prohibited: ['crypto', 'adult', 'gambling'],
+      requiresApproval: ['alcohol', 'financial', 'healthcare', 'politics']
+    },
+    policyUrl: 'https://advertising.roku.com'
+  },
+  {
+    name: 'Snapchat',
+    logo: '',
+    category: 'Social',
+    technicalSpecs: {
+      formats: ['mp4'],
+      maxFileSize: 1000, // MB
+      maxDuration: 60, // seconds
+      minResolution: { width: 1080, height: 1920 },
+      aspectRatio: ['9:16', '1:1', '16:9']
+    },
+    staticSpecs: {
+      formats: ['jpg', 'png'],
+      maxFileSize: 5, // MB
+      minResolution: { width: 1080, height: 1080 },
+      aspectRatio: ['9:16', '1:1', '16:9']
+    },
+    policyRestrictions: {
+      prohibited: ['crypto', 'adult', 'gambling'],
+      requiresApproval: ['alcohol', 'financial', 'healthcare']
+    },
+    policyUrl: 'https://businesshelp.snapchat.com/s/article/prohibited-content'
+  },
+  {
+    name: 'LinkedIn',
+    logo: '',
+    category: 'Social',
+    technicalSpecs: {
+      formats: ['mp4', 'mov'],
+      maxFileSize: 5000, // MB
+      maxDuration: 30, // seconds (recommended for ads)
+      minResolution: { width: 360, height: 360 },
+      aspectRatio: ['1:1', '16:9', '9:16']
+    },
+    staticSpecs: {
+      formats: ['jpg', 'png'],
+      maxFileSize: 5, // MB
+      minResolution: { width: 1200, height: 627 },
+      aspectRatio: ['1:1', '16:9']
+    },
+    policyRestrictions: {
+      prohibited: ['adult', 'gambling'],
+      requiresApproval: ['crypto', 'financial', 'healthcare', 'alcohol']
+    },
+    policyUrl: 'https://www.linkedin.com/legal/ads-policy'
   },
 ];
