@@ -17,10 +17,10 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ formData, fileAnalyzes
 
   const analysisSteps = [
     'Checking ad specs against publisher requirements...',
-    'Validating creative assets...',
-    'Loading publisher policy data...',
+    'Scanning creative assets...',
+    'Fetching publisher policies...',
     'Running AI-powered brand safety analysis...',
-    'Generating compliance report...'
+    'Generating results...'
   ];
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ formData, fileAnalyzes
             </div>
             
             <h3 className="text-3xl font-bold text-gray-900 mb-4">
-              Analyzing Compliance
+              Analyzing Your Ads
             </h3>
             <p className="text-gray-600 mb-8 text-lg">
               Checking ad specs and brand safety across {formData.selectedPublishers.length} publishers...
@@ -130,10 +130,10 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ formData, fileAnalyzes
               <div>
                 <h2 className="text-4xl font-bold flex items-center">
                   <Shield className="w-10 h-10 mr-4" />
-                  Compliance Analysis Complete
+                  Analysis Complete
                 </h2>
                 <p className="mt-2 text-orange-100 text-lg">
-                  Your comprehensive compliance report is ready
+                  Your results are ready
                 </p>
               </div>
               <div className="text-right">
@@ -170,7 +170,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ formData, fileAnalyzes
                        transition-all duration-200 shadow-lg hover:shadow-xl focus:ring-4 focus:ring-orange-100 focus:outline-none"
             >
               <RotateCcw className="w-5 h-5 mr-2" />
-              Start New Analysis
+              Check New Ads
             </button>
           </div>
         </div>

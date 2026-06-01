@@ -50,7 +50,7 @@ export const CreativeUploadPage: React.FC<CreativeUploadPageProps> = ({ formData
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-6 mb-8">
             <div className="flex items-center mb-4">
               <CheckCircle2 className="w-6 h-6 text-green-600 mr-3" />
-              <h3 className="text-lg font-bold text-green-800">Files Ready for Analysis</h3>
+              <h3 className="text-lg font-bold text-green-800">Ready to go</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-white rounded-lg p-4 border border-green-200">

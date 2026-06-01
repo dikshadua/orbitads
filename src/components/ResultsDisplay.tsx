@@ -147,7 +147,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
               </div>
             </div>
             <div className="p-4 bg-gray-50 rounded-xl border-2 border-gray-200">
-              <div className="font-semibold text-gray-900 mb-1">Categories Detected</div>
+              <div className="font-semibold text-gray-900 mb-1">Flagged Categories</div>
               <div className="font-bold text-gray-600">
                 {results.websiteAnalysis.detectedKeywords.length || 'None'}
               </div>
@@ -159,7 +159,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
           </div>
           {results.websiteAnalysis.detectedKeywords.length > 0 && (
             <div className="mt-4 p-4 bg-yellow-50 border-2 border-yellow-200 rounded-xl">
-              <div className="font-semibold text-yellow-800 mb-2">Detected Categories:</div>
+              <div className="font-semibold text-yellow-800 mb-2">Flagged:</div>
               <div className="flex flex-wrap gap-2">
                 {results.websiteAnalysis.detectedKeywords.map((keyword, index) => (
                   <span key={index} className="px-3 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm font-medium">
