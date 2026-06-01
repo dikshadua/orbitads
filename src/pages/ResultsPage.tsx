@@ -17,7 +17,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ formData, fileAnalyzes
 
   const analysisSteps = [
     'Checking ad specs against publisher requirements...',
-    'Scanning creative assets...',
+    'Reviewing creatives for policy violations...',
     'Fetching publisher policies...',
     'Running AI-powered brand safety analysis...',
     'Generating results...'

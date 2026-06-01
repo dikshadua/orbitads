@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, CheckCircle, XCircle, AlertTriangle, Video, Image, ExternalLink, RotateCcw } from 'lucide-react';
+import { Download, CheckCircle, XCircle, AlertTriangle, Video, Image, ExternalLink, RotateCcw, Eye, Film, ImageIcon } from 'lucide-react';
 import type { ComplianceResults, ComplianceResult } from '../types';
 
 interface ResultsDisplayProps {
@@ -169,6 +169,97 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Creative Review */}
+      {results.creativeReviews && results.creativeReviews.length > 0 && (
+        <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-100">
+          <div className="p-6 border-b border-gray-100">
+            <h3 className="font-bold text-gray-900 text-lg flex items-center gap-2">
+              <Eye className="w-5 h-5 text-[#CC5500]" />
+              Creative Review
+            </h3>
+            <p className="text-sm text-gray-500 mt-1">
+              AI analysis of your ad creatives for policy violations
+            </p>
+          </div>
+          <div className="p-6 space-y-8">
+            {results.creativeReviews.map((review) => (
+              <div key={review.fileId}>
+                {/* File header */}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                    review.fileType === 'video'
+                      ? 'bg-orange-100'
+                      : 'bg-blue-100'
+                  }`}>
+                    {review.fileType === 'video'
+                      ? <Film className="w-4 h-4 text-[#CC5500]" />
+                      : <ImageIcon className="w-4 h-4 text-blue-600" />
+                    }
+                  </div>
+                  <span className="font-semibold text-gray-900">{review.fileName}</span>
+                  {review.recommendHumanReview && (
+                    <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium">
+                      Human review recommended
+                    </span>
+                  )}
+                </div>
+
+                {/* Model results — grid expands to side-by-side when GPT-4o is added */}
+                <div className={`grid gap-4 ${review.modelResults.length > 1 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
+                  {review.modelResults.map((modelResult) => (
+                    <div key={modelResult.model} className="border-2 border-gray-100 rounded-xl p-5">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-xs font-bold uppercase tracking-wide bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                          {modelResult.model === 'claude' ? 'Claude' : 'GPT-4o'}
+                        </span>
+                        <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                          modelResult.confidence === 'high' ? 'bg-green-100 text-green-700' :
+                          modelResult.confidence === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                          'bg-gray-100 text-gray-500'
+                        }`}>
+                          {modelResult.confidence} confidence
+                        </span>
+                      </div>
+
+                      <p className="text-sm text-gray-700 leading-relaxed mb-4">{modelResult.summary}</p>
+
+                      {modelResult.violations.length > 0 ? (
+                        <div className="space-y-2">
+                          {modelResult.violations.map((v, i) => (
+                            <div key={i} className="flex items-start gap-2 text-red-600 bg-red-50 p-3 rounded-lg border border-red-200 text-sm">
+                              <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                              <span>{v}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 text-green-600 bg-green-50 p-3 rounded-lg border border-green-200 text-sm">
+                          <CheckCircle className="w-4 h-4" />
+                          <span className="font-semibold">No violations detected</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Agreement indicator — visible once GPT-4o is added */}
+                {review.modelResults.length > 1 && (
+                  <div className={`mt-3 p-3 rounded-lg text-sm font-medium flex items-center gap-2 ${
+                    review.agreement === 'agree-safe' ? 'bg-green-50 text-green-700' :
+                    review.agreement === 'agree-flagged' ? 'bg-red-50 text-red-700' :
+                    'bg-yellow-50 text-yellow-700'
+                  }`}>
+                    {review.agreement === 'agree-safe' && <><CheckCircle className="w-4 h-4" /> Both models agree: no violations found</>}
+                    {review.agreement === 'agree-flagged' && <><XCircle className="w-4 h-4" /> Both models agree: violations detected</>}
+                    {review.agreement === 'disagree' && <><AlertTriangle className="w-4 h-4" /> Models disagree — human review recommended</>}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

@@ -1,15 +1,62 @@
-import type { FormData, FileAnalysis, ComplianceResults, ComplianceResult } from '../types';
+import type { FormData, FileAnalysis, ComplianceResults, ComplianceResult, CreativeReview, ModelCreativeAnalysis } from '../types';
 import { PUBLISHERS, type PublisherRequirements } from '../data/publishers';
 import { analyzeWebsite, type WebsiteAnalysis } from './urlScraper';
 import { scrapePublisherData } from './publisherScraper';
+
+const analyzeCreative = async (
+  fileAnalysis: FileAnalysis,
+  formData: FormData
+): Promise<CreativeReview | null> => {
+  if (!fileAnalysis.imageBase64) return null;
+
+  try {
+    const response = await fetch('/api/analyze-creative', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imageBase64: fileAnalysis.imageBase64,
+        mimeType: fileAnalysis.mimeType || 'image/jpeg',
+        fileName: fileAnalysis.fileName,
+        brandName: formData.brandName,
+        iabIndustry: formData.iabIndustry,
+        publishers: formData.selectedPublishers
+      })
+    });
+
+    const result = await response.json();
+    const modelResult: ModelCreativeAnalysis = {
+      model: result.model || 'claude',
+      violations: result.violations || [],
+      confidence: result.confidence || 'low',
+      flagged: result.flagged || false,
+      summary: result.summary || ''
+    };
+
+    return {
+      fileId: fileAnalysis.id,
+      fileName: fileAnalysis.fileName,
+      fileType: fileAnalysis.fileType,
+      modelResults: [modelResult],
+      agreement: 'single-model',
+      recommendHumanReview: modelResult.confidence !== 'high' || modelResult.flagged
+    };
+  } catch {
+    return null;
+  }
+};
 
 export const analyzeCompliance = async (
   formData: FormData,
   fileAnalyzes: FileAnalysis[]
 ): Promise<ComplianceResults> => {
 
-  // Perform AI-powered website analysis
-  const websiteAnalysis = await analyzeWebsite(formData.websiteUrl, formData.brandName, formData.iabIndustry);
+  // Run website analysis and creative reviews in parallel
+  const [websiteAnalysis, ...creativeReviewResults] = await Promise.all([
+    analyzeWebsite(formData.websiteUrl, formData.brandName, formData.iabIndustry),
+    ...fileAnalyzes.map(f => analyzeCreative(f, formData))
+  ]);
+
+  const creativeReviews = creativeReviewResults.filter((r): r is CreativeReview => r !== null);
 
   const allPublisherResults: ComplianceResult[] = [];
 
@@ -18,15 +65,13 @@ export const analyzeCompliance = async (
     const publisher = PUBLISHERS.find(p => p.name === publisherName);
     if (!publisher) continue;
 
-    // Scrape dynamic publisher data
     const scrapedData = await scrapePublisherData(publisherName);
 
-    // Analyze each file against this publisher
     for (const fileAnalysis of fileAnalyzes) {
       const result = analyzePublisherCompliance(
         publisher,
         fileAnalysis,
-        websiteAnalysis,
+        websiteAnalysis as WebsiteAnalysis,
         formData.iabIndustry,
         scrapedData
       );
@@ -38,10 +83,11 @@ export const analyzeCompliance = async (
     publisherResults: allPublisherResults,
     fileAnalyzes,
     websiteAnalysis: {
-      detectedKeywords: websiteAnalysis.detectedCategories,
-      riskLevel: websiteAnalysis.riskLevel,
-      aiExplanation: websiteAnalysis.aiExplanation
+      detectedKeywords: (websiteAnalysis as WebsiteAnalysis).detectedCategories,
+      riskLevel: (websiteAnalysis as WebsiteAnalysis).riskLevel,
+      aiExplanation: (websiteAnalysis as WebsiteAnalysis).aiExplanation
     },
+    creativeReviews,
     timestamp: new Date().toISOString()
   };
 };

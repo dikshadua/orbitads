@@ -12,20 +12,41 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisProgress, setAnalysisProgress] = useState(0);
 
+  const resizeToBase64 = (source: HTMLImageElement | HTMLVideoElement, maxSize = 1024): string => {
+    let w = source instanceof HTMLVideoElement ? source.videoWidth : source.naturalWidth;
+    let h = source instanceof HTMLVideoElement ? source.videoHeight : source.naturalHeight;
+    if (w > maxSize || h > maxSize) {
+      const scale = maxSize / Math.max(w, h);
+      w = Math.round(w * scale);
+      h = Math.round(h * scale);
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return '';
+    ctx.drawImage(source, 0, 0, w, h);
+    return canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+  };
+
   const analyzeFile = useCallback(async (file: File): Promise<FileAnalysis> => {
     return new Promise((resolve) => {
       const fileType = file.type.startsWith('video/') ? 'video' : 'image';
-      
+      const objectUrl = URL.createObjectURL(file);
+
       if (fileType === 'video') {
         const video = document.createElement('video');
         video.preload = 'metadata';
-        
-        video.onloadedmetadata = () => {
-          const width = video.videoWidth;
-          const height = video.videoHeight;
-          const duration = Math.round(video.duration);
+        let resolved = false;
+
+        const doResolve = (extra: { imageBase64?: string; mimeType?: string } = {}) => {
+          if (resolved) return;
+          resolved = true;
+          URL.revokeObjectURL(objectUrl);
+          const width = video.videoWidth || 1920;
+          const height = video.videoHeight || 1080;
+          const duration = Math.round(video.duration) || 30;
           const aspectRatio = `${Math.round((width / height) * 100) / 100}:1`;
-          
           resolve({
             fileName: file.name,
             fileType: 'video',
@@ -34,34 +55,40 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
             duration,
             aspectRatio,
             format: file.name.split('.').pop()?.toLowerCase() || 'unknown',
-            id: crypto.randomUUID()
+            id: crypto.randomUUID(),
+            ...extra
           });
         };
-        
-        video.onerror = () => {
-          resolve({
-            fileName: file.name,
-            fileType: 'video',
-            fileSize: file.size,
-            resolution: { width: 1920, height: 1080 },
-            duration: 30,
-            aspectRatio: '16:9',
-            format: file.name.split('.').pop()?.toLowerCase() || 'unknown',
-            id: crypto.randomUUID()
-          });
+
+        video.onloadedmetadata = () => {
+          // Seek to 1s (or 10% of duration) to capture a representative frame
+          video.onseeked = () => {
+            try {
+              const imageBase64 = resizeToBase64(video);
+              doResolve(imageBase64 ? { imageBase64, mimeType: 'image/jpeg' } : {});
+            } catch {
+              doResolve();
+            }
+          };
+          video.currentTime = Math.min(1, (video.duration || 10) * 0.1);
+          // Fallback if seek takes too long
+          setTimeout(() => doResolve(), 3000);
         };
-        
-        video.src = URL.createObjectURL(file);
+
+        video.onerror = () => doResolve();
+        video.src = objectUrl;
       } else {
         const img = new window.Image();
-        
+
         img.onload = () => {
           const width = img.naturalWidth;
           const height = img.naturalHeight;
           const gcd = (a: number, b: number): number => b === 0 ? a : gcd(b, a % b);
           const divisor = gcd(width, height);
           const aspectRatio = `${width / divisor}:${height / divisor}`;
-          
+          const imageBase64 = resizeToBase64(img);
+          const mimeType = file.type || 'image/jpeg';
+          URL.revokeObjectURL(objectUrl);
           resolve({
             fileName: file.name,
             fileType: 'image',
@@ -69,11 +96,13 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
             resolution: { width, height },
             aspectRatio,
             format: file.name.split('.').pop()?.toLowerCase() || 'unknown',
-            id: crypto.randomUUID()
+            id: crypto.randomUUID(),
+            ...(imageBase64 ? { imageBase64, mimeType } : {})
           });
         };
-        
+
         img.onerror = () => {
+          URL.revokeObjectURL(objectUrl);
           resolve({
             fileName: file.name,
             fileType: 'image',
@@ -84,8 +113,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFilesAnalyzed, uploade
             id: crypto.randomUUID()
           });
         };
-        
-        img.src = URL.createObjectURL(file);
+
+        img.src = objectUrl;
       }
     });
   }, []);

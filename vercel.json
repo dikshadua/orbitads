@@ -2,6 +2,9 @@
   "functions": {
     "api/analyze-website.ts": {
       "maxDuration": 30
+    },
+    "api/analyze-creative.ts": {
+      "maxDuration": 30
     }
   }
 }
